@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/calgary-tree-equity/static/css/main.5af76c64.css",
+    "main.js": "/calgary-tree-equity/static/js/main.2517b392.js",
+    "index.html": "/calgary-tree-equity/index.html",
+    "main.5af76c64.css.map": "/calgary-tree-equity/static/css/main.5af76c64.css.map",
+    "main.2517b392.js.map": "/calgary-tree-equity/static/js/main.2517b392.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5af76c64.css",
+    "static/js/main.2517b392.js"
+  ]
+}
