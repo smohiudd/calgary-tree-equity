@@ -1,0 +1,13 @@
+#root {
+  position: absolute;
+  inset: 0;
+}
+
+div.map {
+  position: absolute;
+  inset: 0;
+}
+
+.maplibregl-compare {
+  background-color: #000;
+}

@@ -1,11 +1,16 @@
 {
-  "name": "calgary-trees",
+  "name": "calgary-tree-equity",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://smohiudd.github.io/calgary-tree-equity",
   "dependencies": {
+    "@maplibre/maplibre-gl-compare": "^0.5.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "d3": "^7.8.5",
+    "maplibre-gl": "^4.1.0",
+    "pmtiles": "^3.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -25,9 +30,8 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "defaults",
+      "not ie 11"
     ],
     "development": [
       "last 1 chrome version",

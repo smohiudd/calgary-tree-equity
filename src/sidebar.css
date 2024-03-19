@@ -1,0 +1,14 @@
+.sidebar-container {
+    position: absolute;
+    width: 400px;
+    top: 0;
+    margin: 0px;
+    padding: 20px;
+    box-shadow: 5px 5px 15px grey;
+    background-color: white;
+  }
+
+.logo-style {
+  width: 20%;
+}
+  
