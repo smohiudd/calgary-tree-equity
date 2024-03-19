@@ -22,8 +22,8 @@ export default function Sidebar(props) {
         completed by Calgary Climate Hub volunteers.</p>
 
       <h4 className='txt-bold'>Select a Year</h4>
-      <div class='grid grid--gut12 mb24'>
-        <div class='col w-1/3 '>
+      <div className='grid grid--gut12 mb24'>
+        <div className='col w-1/3 '>
             <div className='select-container'>
               <select
                   className="select select--stroke color-green txt-bold"
@@ -39,7 +39,7 @@ export default function Sidebar(props) {
               <div className='select-arrow'></div>
             </div>  
         </div>
-        <div class='col w-2/3 shadow-darken25 py12 px12'>
+        <div className='col w-2/3 shadow-darken25 py12 px12'>
           <label className='checkbox-container'>
             <input  type='checkbox' 
                     checked={props.canopyLayer}
@@ -103,8 +103,8 @@ export default function Sidebar(props) {
       <div className='select-arrow'></div>
       </div> 
       <br/>
-      <div class='flex flex--end-main'>
-        <img src="/assets/Logo-Transparent-climate-hub.png" alt="image" className="logo-style mt18" />
+      <div className='flex flex--end-main'>
+        <img src={process.env.PUBLIC_URL + '/assets/Logo-Transparent-climate-hub.png'} alt="image" className="logo-style mt12" />
       </div>
       
     </div>
