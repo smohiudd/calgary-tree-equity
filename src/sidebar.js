@@ -6,6 +6,7 @@ export default function Sidebar(props) {
   let years = [2012,2013,2015,2017,2020,2022]
 
   const toggleCanopy =()=> props.setCanopyLayer(e => !e)
+  const toggleCanopyDiff =()=> props.setCanopyDiffLayer(e => !e)
   const toggleCanopyPerc = () => props.setCoverPercLayer(e => !e)
   const toggleAerial = () => props.setAerialLayer(e => !e)
   const toggleCompare = () => props.setCompare(e => !e)
@@ -60,6 +61,17 @@ export default function Sidebar(props) {
               <svg className='icon'><use xlinkHref='#icon-check' /></svg>
             </div>
             Canopy Coverage by Census Tract (%)
+          </label>
+
+          <label className='checkbox-container mt6'>
+            <input  type='checkbox' 
+                    checked={props.canopyDiffLayer}
+                    onChange={toggleCanopyDiff}
+            />
+            <div className='checkbox mr6'>
+              <svg className='icon'><use xlinkHref='#icon-check' /></svg>
+            </div>
+            Canopy Change Between Compare Year (%)
           </label>
 
           <label className='checkbox-container mt6'>

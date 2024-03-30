@@ -3,25 +3,36 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./map.css";
 import { Protocol } from 'pmtiles';
-import * as d3 from "d3";
 import * as MaplibreglCompare from "@maplibre/maplibre-gl-compare";
 import "@maplibre/maplibre-gl-compare/dist/maplibre-gl-compare.css";
+import {colorMapDiff} from "./color_map.js"
+import Popup from "./Popup";
 
-let color_ramp
+
 const base_imagery = (year) => `https://tiles.arcgis.com/tiles/AVP60cs0Q9PEA8rH/arcgis/rest/services/Calgary_${year}_WMASP/MapServer/WMTS/tile/1.0.0/Calgary_${year}_WMASP/default/default028mm/{z}/{y}/{x}.png`
+
+const color_map = (year, compareyear) =>{
+  return ([
+    'step',
+    ['*',100,['%',['-',['get',String(compareyear)],['get',String(year)]],['get',String(compareyear)]]], //get percent change
+    ...colorMapDiff()
+  ])
+}
 
 export default function Map(props) {
     const mapContainer = useRef(null);
     const mapContainerAfter = useRef(null);
     const mapContainerCompare = useRef(null);
+    // const popUpRef = useRef();
+    const [popupLngLat, setPopupLngLat] = useState(null);
+    const [content, setContent] = useState([]);
     const map = useRef(null);
     const mapAfter = useRef(null);
     const mapCompare = useRef(null);
     const [lng] = useState(-114.0716);
     const [lat] = useState(51.0589);
-    const [zoom] = useState(15.5);
-
-
+    const [zoom] = useState(10);
+  
     useEffect(() => {
       let protocol = new Protocol();
       maplibregl.addProtocol("pmtiles",protocol.tile);
@@ -31,25 +42,7 @@ export default function Map(props) {
     }, []);
 
     useEffect(() => {
-      d3.json("https://calgarytrees.s3.us-west-2.amazonaws.com/CT_frac_7.json").then(data => {
-
-        let minmax = d3.extent(data.features.map(e=>e.properties.frac))
-
-        // let linear = d3.scaleLinear()
-        //   .domain([minmax[0], minmax[1]])
-        //   .range(["white", "green"])
-
-        let scale = d3.scaleQuantile(data.features.map(e=>e.properties.frac),d3.schemeGreens[5])
-
-        let range = d3.range(minmax[0],minmax[1], 0.1)
-        color_ramp = Array.from(range, (x) => [x, scale(x)])
-
-      })
-    },[])
-
-    useEffect(() => {
       if (map.current) return; // stops map from intializing more than once
-
       map.current = new maplibregl.Map({
         container: mapContainer.current,
         style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
@@ -75,7 +68,7 @@ export default function Map(props) {
 
         map.current.addSource("ct", {
           type: "geojson",
-          data: "https://calgarytrees.s3.us-west-2.amazonaws.com/CT_frac_7.json",
+          data: process.env.REACT_APP_TREE_CANOPY,
         });
         map.current.addLayer({
           id: "ct",
@@ -86,22 +79,35 @@ export default function Map(props) {
           },
           paint: {
             'fill-color': {
-              "property":"frac",
-              "stops": color_ramp
+              "property": String(props.year),
+              "stops": props.colormap,
             },
             'fill-opacity': 0.7
           },
         });
 
         map.current.addLayer({
-          'id': 'outline',
-          'type': 'line',
-          'source': 'ct',
-          'layout': {},
-          'paint': {
+          id: 'outline',
+          type: 'line',
+          source: 'ct',
+          layout: {},
+          paint: {
               'line-color': 'green',
-              'line-width': 1.5
+              'line-width': 1
           }
+        });
+
+        map.current.addLayer({
+          id: "ct-change",
+          type: "fill",
+          source: "ct",
+          layout:{
+            visibility: props.canopyDiffLayer ? 'visible' : 'none'
+          },
+          paint: {
+            'fill-color': color_map(props.year, props.compareyear),
+            'fill-opacity': 0.7
+          },
         });
 
         map.current.addSource("trees-cover", {
@@ -121,11 +127,49 @@ export default function Map(props) {
             'fill-opacity': 0.6
           },
         });
-
-
       })
 
+
     }, []);
+
+    useEffect(()=>{
+
+      map.current.on('mousemove', 'ct', (e) => {
+        map.current.getCanvas().style.cursor = 'pointer';
+        // const description = `Canopy Cover: ${e.features[0].properties[props.year]}%`;
+
+        // <Popup
+        //   frac={e.features[0].properties[props.year]}
+        //   id={e.features[0].properties.name}
+        // />
+        
+        setPopupLngLat(e.lngLat);
+        
+      })
+
+    },[])
+
+    // useEffect(()=>{
+
+    //   map.current.on('mousemove', 'ct-change', (e) => {
+    //     map.current.getCanvas().style.cursor = 'pointer';
+
+    //     let current_year = Number(e.features[0].properties[props.year])
+    //     let next_year = Number(e.features[0].properties[props.compareyear]) 
+
+    //     let diff = (((next_year-current_year)/next_year)*100).toFixed(2)
+
+    //     let test = (<div>`Change in Canopy: ${diff}%`</div>)
+    //     const description = `<div>Change in Canopy: ${diff}% </div>`;
+    //     popUpRef.current.setLngLat(e.lngLat).setHTML(description).addTo(map.current);
+    //   })
+
+    //   map.current.on('mouseleave', 'ct-change', () => {
+    //     map.current.getCanvas().style.cursor = '';
+    //     popUpRef.current.remove();
+    //   });
+
+    // },[props.year, props.compareyear])
 
 
     useEffect(() => {
@@ -174,7 +218,6 @@ export default function Map(props) {
         });
 
       })
-
       
     },[])
 
@@ -209,17 +252,25 @@ export default function Map(props) {
       //coverage by census tract
       map.current.setLayoutProperty('ct', 'visibility', props.coverPercLayer ? 'visible' : 'none')
       
-    },[props.canopyLayer,props.coverPercLayer,props.aerialLayer])
+      //canopy change
+      map.current.setLayoutProperty('ct-change', 'visibility', props.canopyDiffLayer ? 'visible' : 'none')
+      
+    },[props.canopyLayer,props.coverPercLayer,props.aerialLayer, props.canopyDiffLayer])
 
 
     // Update Data Map 1
     useEffect(() => {
       if (!map.current.isStyleLoaded()) return;
-      
+
       map.current.getSource('base-calgary').setTiles([base_imagery(props.year)]);
       map.current.getSource('trees-cover').setUrl(`pmtiles://https://calgarytrees.s3.us-west-2.amazonaws.com/${props.year}.pmtiles`);
+      map.current.setPaintProperty('ct', 'fill-color', {
+        "property": String(props.year),
+        "stops": props.colormap,
+      });
+      map.current.setPaintProperty('ct-change', 'fill-color', color_map(props.year, props.compareyear));
       
-    },[props.year])
+    },[props.year,props.compareyear])
 
 
     // Update Data Map 2
@@ -248,6 +299,7 @@ export default function Map(props) {
       }
     }
 
+
     return (
       <div>
         <div ref={mapContainerCompare} className="map">
@@ -261,6 +313,12 @@ export default function Map(props) {
           year={props.year}
           compareyear={props.compareyear}
         />
+
+      {popupLngLat && (
+        <Popup lngLat={popupLngLat} ref={mapContainer.current}>
+          {content}
+        </Popup>
+      )}
         
       </div>
     );
