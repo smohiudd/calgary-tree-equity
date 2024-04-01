@@ -75,7 +75,7 @@ export default function Sidebar(props) {
           value="index"
           checked={props.layer === "index"}
         />
-        <div className='radio mr6'></div>
+        <div className='radio mr6 radio--green'></div>
         Tree Equity Index (2020 only)
       </label>
       <label className='radio-container mt6'>
@@ -87,7 +87,7 @@ export default function Sidebar(props) {
             value="cover"
             checked={props.layer === "cover"}
         />
-        <div className='radio mr6'></div>
+        <div className='radio mr6 radio--green'></div>
         Canopy Cover by Community (%)
       </label>
       <label className='radio-container mt6 mb12'>
@@ -99,7 +99,7 @@ export default function Sidebar(props) {
             value="diff"
             checked={props.layer === "diff"}
         />
-        <div className='radio mr6'></div>
+        <div className='radio mr6 radio--green'></div>
         Canopy Cover Change (%)
       </label>
 
@@ -148,7 +148,7 @@ export default function Sidebar(props) {
                       checked={props.canopyLayer}
                       onChange={toggleCanopy}
               />
-              <div className='checkbox mr6'>
+              <div className='checkbox mr6 checkbox--green'>
                 <svg className='icon'><use xlinkHref='#icon-check' /></svg>
             </div>
               Tree Canopy
@@ -161,7 +161,7 @@ export default function Sidebar(props) {
                     checked={props.aerialLayer}
                     onChange={toggleAerial}
             />
-            <div className='checkbox mr6'>
+            <div className='checkbox mr6 checkbox--green'>
               <svg className='icon'><use xlinkHref='#icon-check' /></svg>
             </div>
             Orthophoto (Aerial View)
@@ -177,7 +177,7 @@ export default function Sidebar(props) {
             checked={props.compare}
             onChange={toggleCompare}
           />
-          <div class='switch mr6'></div>
+          <div class='switch switch--green mr6'></div>
           <span className="txt-s mt3">Compare Years</span>
         </label>
 
