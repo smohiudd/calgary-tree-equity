@@ -178,7 +178,7 @@ export default function Sidebar(props) {
             onChange={toggleCompare}
           />
           <div class='switch mr6'></div>
-          Compare Years
+          <span className="txt-s mt3">Compare Years</span>
         </label>
 
         {/* <label className='checkbox-container'>
