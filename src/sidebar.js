@@ -24,8 +24,8 @@ export default function Sidebar(props) {
   return (
     <div className="sidebar-container prose">
       
-      <span className="color-green-deep txt-h1 txt-bold">Calgary Tree Equity</span>
-      <p className="mt12 mb24">This tools uses various data sources to help users analyze the equity and 
+      <span className="color-green-deep txt-h1 txt-bold ">Calgary Tree Equity</span>
+      <p className="mt12 mb24 txt-m ">This tools uses various data sources to help users analyze <a href="https://www.calgaryclimatehub.ca/calgary_tree_equity">tree equity</a> and 
         change in Calgary's tree cover over time.</p>
 
 
@@ -63,8 +63,6 @@ export default function Sidebar(props) {
           <div className='select-arrow'></div>
       </div> 
 
-
-      
       <div className="mt24">
       <label className='radio-container'>
         <input 
@@ -105,42 +103,6 @@ export default function Sidebar(props) {
 
       </div>
 
-        {/* <div>
-          <label className='checkbox-container mt6'>
-            <input checked disabled  type='checkbox' 
-                    checked=""
-                    onChange=""
-            />
-            <div className='checkbox mr6'>
-              <svg className='icon'><use xlinkHref='#icon-check' /></svg>
-            </div>
-            Tree Equity
-          </label>
-          <label className='checkbox-container mt6'>
-            <input   type='checkbox' 
-                    checked={props.coverPercLayer}
-                    onChange={toggleCanopyPerc}
-            />
-            <div className='checkbox mr6'>
-              <svg className='icon'><use xlinkHref='#icon-check' /></svg>
-            </div>
-            Canopy Coverage by Census Tract (%)
-          </label>
-
-          <label className='checkbox-container mt6'>
-            <input  type='checkbox' 
-                    checked={props.canopyDiffLayer}
-                    onChange={toggleCanopyDiff}
-            />
-            <div className='checkbox mr6'>
-              <svg className='icon'><use xlinkHref='#icon-check' /></svg>
-            </div>
-            Canopy Change Between Compare Year (%)
-          </label>
-
-
-      </div> */}
-      
       
           <div className="block mt12">
             <label className='checkbox-container'>
@@ -170,9 +132,9 @@ export default function Sidebar(props) {
 
 
 
-        <label class='switch-container'>
+        <label class='switch-container mb12'>
           <input
-
+            disabled = {props.layer || (!props.aerialLayer && !props.canopyLayer) ? "disabled" : ""}
             type='checkbox' 
             checked={props.compare}
             onChange={toggleCompare}
@@ -181,29 +143,22 @@ export default function Sidebar(props) {
           <span className="txt-s mt3">Compare Years</span>
         </label>
 
-        {/* <label className='checkbox-container'>
-          <input  type='checkbox' 
-                  checked={props.compare}
-                  onChange={toggleCompare}
-          />
-          <div className='checkbox mr6'>
-            <svg className='icon'><use xlinkHref='#icon-check' /></svg>
-          </div>
-          <span className="txt-bold">Compare years </span>
-        </label> */}
-            
-  
+      
+      <br/>
 
+      <hr class='txt-hr'/>
 
-    
+      <span className="txt-s">This tool was made by volunteers at the <a target="_blank" href="https://www.calgaryclimatehub.ca">Calgary Climate Hub</a> using <a target="_blank" href="https://data.calgary.ca/">open data</a> and open-source tools. See the <a target="_blank" href="https://github.com/smohiudd/calgary-tree-equity">github page</a> for more info about how the data was processed.</span>
 
 
 
       <br/>
-      <div className='flex flex--end-main'>
-        <img src={process.env.PUBLIC_URL + '/assets/Logo-Transparent-climate-hub.png'} alt="image" className="logo-style mt12" />
-      </div>
       
+      <a href="https://www.calgaryclimatehub.ca/" target="_blank"><img src={process.env.PUBLIC_URL + '/assets/Logo-Transparent-climate-hub.png'} alt="image" className="logo-style mt24" /></a>
+      
+      
+      
+
     </div>
   );
 }
