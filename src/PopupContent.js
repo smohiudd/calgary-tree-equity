@@ -5,7 +5,7 @@ const PopupContent = forwardRef(function PopupContent(props, ref) {
     <div ref={ref} className="prose">
       <div className='txt-m txt-bold'>{props.content.name}</div>
       <div className='txt-h1 txt-bold color-green'>{props.content.frac}%</div>
-      <div className='txt-s txt-bold color-green'>Canopy cover</div>
+      <div className='txt-s txt-bold color-green'>Canopy Cover in {props.content.year}</div>
     </div>
   );
 });

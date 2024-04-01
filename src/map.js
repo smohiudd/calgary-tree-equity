@@ -71,12 +71,13 @@ export default function Map(props) {
           type: "geojson",
           data: process.env.REACT_APP_TREE_CANOPY,
         });
+
         map.current.addLayer({
           id: "ct",
           type: "fill",
           source: "ct",
           layout:{
-            visibility: props.coverPercLayer ? 'visible' : 'none'
+            visibility: props.layer==="cover" ? 'visible' : 'none'
           },
           paint: {
             'fill-color': {
@@ -86,24 +87,12 @@ export default function Map(props) {
             'fill-opacity': 0.7
           },
         });
-
-        map.current.addLayer({
-          id: 'outline',
-          type: 'line',
-          source: 'ct',
-          layout: {},
-          paint: {
-              'line-color': 'green',
-              'line-width': 1
-          }
-        });
-
         map.current.addLayer({
           id: "ct-change",
           type: "fill",
           source: "ct",
           layout:{
-            visibility: props.canopyDiffLayer ? 'visible' : 'none'
+            visibility: props.layer==="diff" ? 'visible' : 'none'
           },
           paint: {
             'fill-color': color_map(props.year, props.compareyear),
@@ -128,6 +117,18 @@ export default function Map(props) {
             'fill-opacity': 0.6
           },
         });
+
+        map.current.addLayer({
+          id: 'outline',
+          type: 'line',
+          source: 'ct',
+          layout: {},
+          paint: {
+              'line-color': 'green',
+              'line-width': 1
+          }
+        });
+
       })
 
 
@@ -141,7 +142,8 @@ export default function Map(props) {
         
         setPopupContent({
           "name":e.features[0].properties.name,
-          "frac":e.features[0].properties[props.year]
+          "frac":e.features[0].properties[props.year],
+          "year":props.year
         })
       })
 
@@ -149,8 +151,6 @@ export default function Map(props) {
         map.current.getCanvas().style.cursor = '';
         popUpRef.current.remove();
       });
-
-
 
     },[props.year])
 
@@ -176,8 +176,6 @@ export default function Map(props) {
         map.current.getCanvas().style.cursor = '';
         popUpRef.current.remove();
       });
-
-
 
     },[props.year, props.compareyear])
 
@@ -276,12 +274,14 @@ export default function Map(props) {
       mapAfter.current.setLayoutProperty('base-calgary', 'visibility', props.aerialLayer ? 'visible' : 'none')
 
       //coverage by census tract
-      map.current.setLayoutProperty('ct', 'visibility', props.coverPercLayer ? 'visible' : 'none')
+      map.current.setLayoutProperty('ct', 'visibility', props.layer==="cover" ? 'visible' : 'none')
       
       //canopy change
-      map.current.setLayoutProperty('ct-change', 'visibility', props.canopyDiffLayer ? 'visible' : 'none')
+      map.current.setLayoutProperty('ct-change', 'visibility', props.layer==="diff" ? 'visible' : 'none')
+
+      if (!props.aerialLayer && !props.aerialLayer && !props.layer && props.compare) props.setCompare(e => !e)
       
-    },[props.canopyLayer,props.coverPercLayer,props.aerialLayer, props.canopyDiffLayer])
+    },[props.canopyLayer,props.aerialLayer, props.layer])
 
 
     // Update Data Map 1
@@ -325,7 +325,6 @@ export default function Map(props) {
       }
     }
 
-
     return (
       <div>
         <div ref={mapContainerCompare} className="map">
@@ -350,10 +349,6 @@ export default function Map(props) {
           compareyear={props.compareyear}
         />
 
-
-
-
-        
       </div>
     );
   }

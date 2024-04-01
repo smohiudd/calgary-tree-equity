@@ -8,8 +8,7 @@ import {getColorMap} from "./color_map.js"
 function App() {
   
   const [canopyLayer , setCanopyLayer] = useState(false);
-  const [canopyDiffLayer , setCanopyDiffLayer] = useState(false);
-  const [coverPercLayer , setCoverPercLayer] = useState(true);
+  const [layer, setLayer] = useState("cover") //cover, diff, index
   const [aerialLayer , setAerialLayer] = useState(false);
   const [compare , setCompare] = useState(false);
   const [year , setYear] = useState(2012);
@@ -26,24 +25,28 @@ function App() {
     <div>
       {colormap && 
             <Map 
+            layer={layer}
             canopyLayer={canopyLayer}
-            canopyDiffLayer={canopyDiffLayer}
-            coverPercLayer={coverPercLayer}
+            // canopyDiffLayer={canopyDiffLayer}
+            // coverPercLayer={coverPercLayer}
             aerialLayer={aerialLayer}
             compare={compare}
             year={year}
             compareyear={compareyear}
             colormap={colormap}
+            setCompare={setCompare}
           /> 
       }
 
       <Sidebar
+        layer={layer}
+        setLayer={setLayer}
         canopyLayer={canopyLayer}
         setCanopyLayer={setCanopyLayer}
-        canopyDiffLayer={canopyDiffLayer}
-        setCanopyDiffLayer={setCanopyDiffLayer}
-        coverPercLayer={coverPercLayer}
-        setCoverPercLayer={setCoverPercLayer}
+        // canopyDiffLayer={canopyDiffLayer}
+        // setCanopyDiffLayer={setCanopyDiffLayer}
+        // coverPercLayer={coverPercLayer}
+        // setCoverPercLayer={setCoverPercLayer}
         aerialLayer={aerialLayer}
         setAerialLayer={setAerialLayer}
         setCompare={setCompare}
