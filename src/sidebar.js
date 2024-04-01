@@ -24,11 +24,13 @@ export default function Sidebar(props) {
   return (
     <div className="sidebar-container prose">
       
-      <h2 className="color-green">Calgary Tree Equity</h2>
-      <p>This tools uses various data sources to help users analyze the equity and 
+      <span className="color-green-deep txt-h1 txt-bold">Calgary Tree Equity</span>
+      <p className="mt12 mb24">This tools uses various data sources to help users analyze the equity and 
         change in Calgary's tree cover over time.</p>
 
-        <div className="mb24">
+
+        <span className="txt-h3 txt-bold color-yellow-deep">See how Calgary's Tree <br/>Canopy in </span>
+  
         <div className='select-container mr6'>
               <select
                   className="select color-green txt-bold txt-h3"
@@ -43,10 +45,10 @@ export default function Sidebar(props) {
               </select>
               <div className='select-arrow'></div>
         </div>  
+        <br/>
+        <span className="txt-h3 txt-bold color-yellow-deep">...compares to </span>
 
-        <span className="txt-h5">COMPARE TO YEAR </span>
-
-        <div className='select-container ml12'>
+        <div className='select-container'>
           <select
               className="select color-green txt-bold txt-h3"
               value={props.compareyear}
@@ -61,9 +63,9 @@ export default function Sidebar(props) {
           <div className='select-arrow'></div>
       </div> 
 
-      </div>
+
       
-      <div>
+      <div className="mt24">
       <label className='radio-container'>
         <input 
           disabled = {props.compare || props.canopyLayer || props.aerialLayer? "disabled" : ""}
@@ -74,9 +76,9 @@ export default function Sidebar(props) {
           checked={props.layer === "index"}
         />
         <div className='radio mr6'></div>
-        Tree Equity
+        Tree Equity Index (2020 only)
       </label>
-      <label className='radio-container'>
+      <label className='radio-container mt6'>
         <input 
             disabled = {props.compare || props.canopyLayer || props.aerialLayer? "disabled" : ""}
             name='radio-basic' 
@@ -88,7 +90,7 @@ export default function Sidebar(props) {
         <div className='radio mr6'></div>
         Canopy Cover by Community (%)
       </label>
-      <label className='radio-container'>
+      <label className='radio-container mt6 mb12'>
         <input
             disabled = {props.compare || props.canopyLayer || props.aerialLayer? "disabled" : ""}
             name='radio-basic' 
@@ -149,7 +151,7 @@ export default function Sidebar(props) {
               <div className='checkbox mr6'>
                 <svg className='icon'><use xlinkHref='#icon-check' /></svg>
             </div>
-              Tree Canopy Layer
+              Tree Canopy
             </label>
             </div>
 
@@ -162,7 +164,7 @@ export default function Sidebar(props) {
             <div className='checkbox mr6'>
               <svg className='icon'><use xlinkHref='#icon-check' /></svg>
             </div>
-            Orthophoto Layer
+            Orthophoto (Aerial View)
           </label>
           </div>
 

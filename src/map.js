@@ -124,7 +124,7 @@ export default function Map(props) {
           source: 'ct',
           layout: {},
           paint: {
-              'line-color': 'green',
+              'line-color': '#A9A9A9',
               'line-width': 1
           }
         });
@@ -236,7 +236,7 @@ export default function Map(props) {
           source: 'ct',
           layout: {},
           paint: {
-              'line-color': 'green',
+              'line-color': '#A9A9A9',
               'line-width': 1
           }
         });
