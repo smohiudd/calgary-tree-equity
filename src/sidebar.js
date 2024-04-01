@@ -26,9 +26,7 @@ export default function Sidebar(props) {
       
       <h2 className="color-green">Calgary Tree Equity</h2>
       <p>This tools uses various data sources to help users analyze the equity and 
-        change in Calgary's tree cover over time. Data sources are retrieved 
-        from Calgary Open Data and Census Canada and analysis 
-        completed by Calgary Climate Hub volunteers.</p>
+        change in Calgary's tree cover over time.</p>
 
         <div className="mb24">
         <div className='select-container mr6'>
