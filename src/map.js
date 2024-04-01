@@ -5,8 +5,8 @@ import "./map.css";
 import { Protocol } from 'pmtiles';
 import * as MaplibreglCompare from "@maplibre/maplibre-gl-compare";
 import "@maplibre/maplibre-gl-compare/dist/maplibre-gl-compare.css";
-import {colorMapDiff} from "./color_map.js"
-import Popup from "./Popup";
+import {colorMapDiff, colorMapDiffFlat} from "./color_map.js"
+import {PopupContent, PopupContentDiff} from "./PopupContent";
 
 
 const base_imagery = (year) => `https://tiles.arcgis.com/tiles/AVP60cs0Q9PEA8rH/arcgis/rest/services/Calgary_${year}_WMASP/MapServer/WMTS/tile/1.0.0/Calgary_${year}_WMASP/default/default028mm/{z}/{y}/{x}.png`
@@ -15,7 +15,7 @@ const color_map = (year, compareyear) =>{
   return ([
     'step',
     ['*',100,['%',['-',['get',String(compareyear)],['get',String(year)]],['get',String(compareyear)]]], //get percent change
-    ...colorMapDiff()
+    ...colorMapDiffFlat()
   ])
 }
 
@@ -23,9 +23,10 @@ export default function Map(props) {
     const mapContainer = useRef(null);
     const mapContainerAfter = useRef(null);
     const mapContainerCompare = useRef(null);
-    // const popUpRef = useRef();
-    const [popupLngLat, setPopupLngLat] = useState(null);
-    const [content, setContent] = useState([]);
+    const popUpRef = useRef(new maplibregl.Popup({closeButton: false, closeOnClick: false}));
+    const popUpContainer = useRef();
+    const popUpContainerDiff = useRef();
+    const [popUpContent, setPopupContent] = useState([]);
     const map = useRef(null);
     const mapAfter = useRef(null);
     const mapCompare = useRef(null);
@@ -136,40 +137,49 @@ export default function Map(props) {
 
       map.current.on('mousemove', 'ct', (e) => {
         map.current.getCanvas().style.cursor = 'pointer';
-        // const description = `Canopy Cover: ${e.features[0].properties[props.year]}%`;
-
-        // <Popup
-        //   frac={e.features[0].properties[props.year]}
-        //   id={e.features[0].properties.name}
-        // />
+        popUpRef.current.setLngLat(e.lngLat).setDOMContent(popUpContainer.current).addTo(map.current);
         
-        setPopupLngLat(e.lngLat);
-        
+        setPopupContent({
+          "name":e.features[0].properties.name,
+          "frac":e.features[0].properties[props.year]
+        })
       })
 
-    },[])
+      map.current.on('mouseleave', 'ct', () => {
+        map.current.getCanvas().style.cursor = '';
+        popUpRef.current.remove();
+      });
 
-    // useEffect(()=>{
 
-    //   map.current.on('mousemove', 'ct-change', (e) => {
-    //     map.current.getCanvas().style.cursor = 'pointer';
 
-    //     let current_year = Number(e.features[0].properties[props.year])
-    //     let next_year = Number(e.features[0].properties[props.compareyear]) 
+    },[props.year])
 
-    //     let diff = (((next_year-current_year)/next_year)*100).toFixed(2)
+    useEffect(()=>{
 
-    //     let test = (<div>`Change in Canopy: ${diff}%`</div>)
-    //     const description = `<div>Change in Canopy: ${diff}% </div>`;
-    //     popUpRef.current.setLngLat(e.lngLat).setHTML(description).addTo(map.current);
-    //   })
+      map.current.on('mousemove', 'ct-change', (e) => {
+        map.current.getCanvas().style.cursor = 'pointer';
 
-    //   map.current.on('mouseleave', 'ct-change', () => {
-    //     map.current.getCanvas().style.cursor = '';
-    //     popUpRef.current.remove();
-    //   });
+        let current_year = Number(e.features[0].properties[props.year])
+        let next_year = Number(e.features[0].properties[props.compareyear]) 
 
-    // },[props.year, props.compareyear])
+        popUpRef.current.setLngLat(e.lngLat).setDOMContent(popUpContainerDiff.current).addTo(map.current);
+
+        setPopupContent({
+          "name":e.features[0].properties.name,
+          "diff":(((next_year-current_year)/next_year)*100).toFixed(2),
+          "current_year":props.year,
+          "next_year":props.compareyear
+        })
+      })
+
+      map.current.on('mouseleave', 'ct-change', () => {
+        map.current.getCanvas().style.cursor = '';
+        popUpRef.current.remove();
+      });
+
+
+
+    },[props.year, props.compareyear])
 
 
     useEffect(() => {
@@ -215,6 +225,22 @@ export default function Map(props) {
             'fill-color': '#3acf61',
             'fill-opacity': 0.6
           },
+        });
+
+        mapAfter.current.addSource("ct", {
+          type: "geojson",
+          data: process.env.REACT_APP_TREE_CANOPY,
+        });
+
+        mapAfter.current.addLayer({
+          id: 'outline',
+          type: 'line',
+          source: 'ct',
+          layout: {},
+          paint: {
+              'line-color': 'green',
+              'line-width': 1
+          }
         });
 
       })
@@ -307,6 +333,16 @@ export default function Map(props) {
           <div ref={mapContainerAfter} className="map" />
         </div>
         <div ref={mapContainer} className="map" />
+
+        <PopupContent 
+          ref={popUpContainer}
+          content={popUpContent}
+        /> 
+
+        <PopupContentDiff 
+          ref={popUpContainerDiff}
+          content={popUpContent}
+        /> 
         
         <CompareYear 
           compare={props.compare}
@@ -314,11 +350,9 @@ export default function Map(props) {
           compareyear={props.compareyear}
         />
 
-      {popupLngLat && (
-        <Popup lngLat={popupLngLat} ref={mapContainer.current}>
-          {content}
-        </Popup>
-      )}
+
+
+
         
       </div>
     );

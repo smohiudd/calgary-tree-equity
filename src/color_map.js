@@ -30,14 +30,22 @@ const getColorMap = async (url,year) => {
 //   })
 // }
 
-const colorMapDiff = ()=>{
+const colorMapDiff=()=>{
+  return d3.scaleDiverging()
+  .domain([-150, 0, 70])
+  .interpolator(d3.interpolateRdYlGn)
+}
+
+const colorMapDiffFlat=()=>{
   let scale = d3.scaleDiverging()
   .domain([-150, 0, 70])
   .interpolator(d3.interpolateRdYlGn)
   return d3.range(-150,70).map((x)=>[x,scale(x)]).flat().slice(1)
 }
 
-export {getColorMap, colorMapDiff}
+
+
+export {getColorMap, colorMapDiff, colorMapDiffFlat}
 
 // const getColorMap = async (url,year) => {
 //     d3.json(url).then(data => {
