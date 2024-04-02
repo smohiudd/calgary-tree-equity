@@ -5,7 +5,12 @@ export default function Sidebar(props) {
 
   let years = [2012,2013,2015,2017,2020,2022]
 
-  const toggleLayer =(e)=> props.setLayer(e.target.value)
+  const toggleLayer =(e)=> {
+    props.setLayer(e.target.value)
+    props.setCanopyLayer(false)
+    props.setAerialLayer(false)
+    props.setCompare(false)
+  }
   const toggleCanopy =()=> {
     props.setLayer("")
     props.setCanopyLayer(e => !e)
@@ -23,17 +28,28 @@ export default function Sidebar(props) {
 
   return (
     <div className="sidebar-container prose">
+
+    <div className='grid'>
+      <div className='col w-1/2'>
+        <span className="color-green-deep txt-h2 txt-bold">Calgary Tree Equity</span>
+      </div>
+      <div className='col w-1/2'>
+        <a href="https://www.calgaryclimatehub.ca/" target="_blank"><img src={process.env.PUBLIC_URL + '/assets/Logo-Transparent-climate-hub.png'} alt="image" className="logo-style mt6" /></a>
+      </div>
+    </div>
       
-      <span className="color-green-deep txt-h1 txt-bold ">Calgary Tree Equity</span>
-      <p className="mt12 mb24 txt-m ">This tools uses various data sources to help users analyze <a href="https://www.calgaryclimatehub.ca/calgary_tree_equity">tree equity</a> and 
+      
+      <p className="mt12 mb24 txt-ms ">This tools uses various data sources to help users analyze <a href="https://www.calgaryclimatehub.ca/calgary_tree_equity">tree equity</a> and 
         change in Calgary's tree cover over time.</p>
 
-
-        <span className="txt-h3 txt-bold color-yellow-deep">See how Calgary's Tree <br/>Canopy in </span>
+        <hr class='txt-hr'/>
+        
+        
+        <span className="txt-h5 txt-bold block">Select a Year </span>
   
-        <div className='select-container mr6'>
+        <div className='select-container block mt12'>
               <select
-                  className="select color-green txt-bold txt-h3"
+                  className="select select--stroke color-green txt-bold txt-h4"
                   value={props.year}
                   onChange={selectYear}
                 >
@@ -45,12 +61,41 @@ export default function Sidebar(props) {
               </select>
               <div className='select-arrow'></div>
         </div>  
-        <br/>
-        <span className="txt-h3 txt-bold color-yellow-deep">...compares to </span>
+  
 
-        <div className='select-container'>
+      <div className="mt12 mb12">
+      <label className='radio-container'>
+        <input 
+          // disabled = {props.compare || props.canopyLayer || props.aerialLayer? "disabled" : ""}
+          name='radio-basic' 
+          type='radio'
+          onChange={toggleLayer}
+          value="index"
+          checked={props.layer === "index"}
+        />
+        <div className='radio mr6 radio--green'></div>
+        Tree Equity Index (2020 only)
+      </label>
+      <label className='radio-container mt6 mb6'>
+        <input 
+            // disabled = {props.compare || props.canopyLayer || props.aerialLayer? "disabled" : ""}
+            name='radio-basic' 
+            type='radio'
+            onChange={toggleLayer}
+            value="cover"
+            checked={props.layer === "cover"}
+        />
+        <div className='radio mr6 radio--green'></div>
+        Canopy Cover by Community (%)
+      </label>
+
+      </div>
+
+      <span className="txt-h5 txt-bold">Compare to </span>
+
+      <div className='select-container block mt12'>
           <select
-              className="select color-green txt-bold txt-h3"
+              className="select select--stroke color-green txt-bold txt-h4"
               value={props.compareyear}
               onChange={selectCompareYear}
             >
@@ -63,48 +108,21 @@ export default function Sidebar(props) {
           <div className='select-arrow'></div>
       </div> 
 
-      <div className="mt24">
-      <label className='radio-container'>
-        <input 
-          disabled = {props.compare || props.canopyLayer || props.aerialLayer? "disabled" : ""}
-          name='radio-basic' 
-          type='radio'
-          onChange={toggleLayer}
-          value="index"
-          checked={props.layer === "index"}
-        />
-        <div className='radio mr6 radio--green'></div>
-        Tree Equity Index (2020 only)
-      </label>
-      <label className='radio-container mt6'>
-        <input 
-            disabled = {props.compare || props.canopyLayer || props.aerialLayer? "disabled" : ""}
-            name='radio-basic' 
-            type='radio'
-            onChange={toggleLayer}
-            value="cover"
-            checked={props.layer === "cover"}
-        />
-        <div className='radio mr6 radio--green'></div>
-        Canopy Cover by Community (%)
-      </label>
-      <label className='radio-container mt6 mb12'>
-        <input
-            disabled = {props.compare || props.canopyLayer || props.aerialLayer? "disabled" : ""}
-            name='radio-basic' 
-            type='radio'
-            onChange={toggleLayer}
-            value="diff"
-            checked={props.layer === "diff"}
-        />
-        <div className='radio mr6 radio--green'></div>
-        Canopy Cover Change (%)
-      </label>
-
-      </div>
-
       
           <div className="block mt12">
+
+          <label className='radio-container mt6 mb6'>
+            <input
+                // disabled = {props.compare || props.canopyLayer || props.aerialLayer? "disabled" : ""}
+                name='radio-basic' 
+                type='radio'
+                onChange={toggleLayer}
+                value="diff"
+                checked={props.layer === "diff"}
+            />
+            <div className='radio mr6 radio--green'></div>
+            Canopy Cover Change (%)
+          </label>
             <label className='checkbox-container'>
               <input  type='checkbox' 
                       checked={props.canopyLayer}
@@ -148,15 +166,7 @@ export default function Sidebar(props) {
 
       <hr class='txt-hr'/>
 
-      <span className="txt-s">This tool was made by volunteers at the <a target="_blank" href="https://www.calgaryclimatehub.ca">Calgary Climate Hub</a> using <a target="_blank" href="https://data.calgary.ca/">open data</a> and open-source tools. See the <a target="_blank" href="https://github.com/smohiudd/calgary-tree-equity">github page</a> for more info about how the data was processed.</span>
-
-
-
-      <br/>
-      
-      <a href="https://www.calgaryclimatehub.ca/" target="_blank"><img src={process.env.PUBLIC_URL + '/assets/Logo-Transparent-climate-hub.png'} alt="image" className="logo-style mt24" /></a>
-      
-      
+      <p className="txt-s">This tool was made by volunteers at the <a target="_blank" href="https://www.calgaryclimatehub.ca">Calgary Climate Hub</a> using <a target="_blank" href="https://data.calgary.ca/">open data</a> and open-source tools. See the <a target="_blank" href="https://github.com/smohiudd/calgary-tree-equity">github page</a> for more info about how the data was processed.</p>
       
 
     </div>
