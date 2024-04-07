@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/calgary-tree-equity/static/css/main.879cdc9d.css",
-    "main.js": "/calgary-tree-equity/static/js/main.5a339986.js",
+    "main.css": "/calgary-tree-equity/static/css/main.4df2a432.css",
+    "main.js": "/calgary-tree-equity/static/js/main.0e9fc5c5.js",
     "index.html": "/calgary-tree-equity/index.html",
-    "main.879cdc9d.css.map": "/calgary-tree-equity/static/css/main.879cdc9d.css.map",
-    "main.5a339986.js.map": "/calgary-tree-equity/static/js/main.5a339986.js.map"
+    "main.4df2a432.css.map": "/calgary-tree-equity/static/css/main.4df2a432.css.map",
+    "main.0e9fc5c5.js.map": "/calgary-tree-equity/static/js/main.0e9fc5c5.js.map"
   },
   "entrypoints": [
-    "static/css/main.879cdc9d.css",
-    "static/js/main.5a339986.js"
+    "static/css/main.4df2a432.css",
+    "static/js/main.0e9fc5c5.js"
   ]
 }
