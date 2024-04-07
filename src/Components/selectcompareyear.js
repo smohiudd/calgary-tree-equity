@@ -24,7 +24,7 @@ export default function SelectCompareYear(props) {
   }
   const selectYear = (e) => props.setYear(e.target.value);
   return (
-    <Grid container spacing={2} columns={16}>
+    <Grid container spacing={2} columns={16} sx={{mb:1}}>
       <Grid item xs={8}>
         <FormControl variant="standard" sx={{  width: "100%"  }}>
           <InputLabel id="demo-simple-select-standard-label">

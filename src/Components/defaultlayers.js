@@ -23,12 +23,14 @@ export default function SelectLayer(props) {
     props.setLayer(false);
     props.setCompareCanopy(false);
     props.setCompareAerial(false);
+    props.setCompare(false);
     props.setCanopyLayer((e) => !e);
   };
   const toggleAerial = () => {
     props.setLayer(false);
     props.setCompareCanopy(false);
     props.setCompareAerial(false);
+    props.setCompare(false);
     props.setAerialLayer((e) => !e);
   };
 
@@ -62,7 +64,7 @@ export default function SelectLayer(props) {
         <FormControlLabel
           value="cover"
           control={<Radio />}
-          label={labeltext("Canopy Cover by Community (%)",layerDescriptions.canopy_cover)}
+          label={labeltext("Canopy Cover (%)",layerDescriptions.canopy_cover)}
           checked={props.layer === "cover"}
           onChange={toggleLayer}
         />
@@ -70,13 +72,13 @@ export default function SelectLayer(props) {
           checked={props.canopyLayer}
           onChange={toggleCanopy}
           control={<Checkbox />}
-          label={labeltext("Tree Canopy",layerDescriptions.canopy)}
+          label={labeltext("Tree Canopy Outline",layerDescriptions.canopy)}
         />
         <FormControlLabel
           checked={props.aerialLayer}
           onChange={toggleAerial}
           control={<Checkbox />}
-          label={labeltext("Orthophoto (Aerial View)",layerDescriptions.aerial)}
+          label={labeltext("Aerial View",layerDescriptions.aerial)}
         />
       </FormGroup>
     </FormControl>

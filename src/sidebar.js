@@ -14,9 +14,16 @@ export default function Sidebar(props) {
 
   return (
     <div className="sidebar-container">
-      <Grid container spacing={2} columns={16} sx={{mb:2}}>
+      <Grid container spacing={2} columns={16} sx={{ mb: 2 }}>
         <Grid item xs={9}>
-          <Box sx={{fontSize:35, fontWeight: "bold", color:'green', letterSpacing: -1}}>
+          <Box
+            sx={{
+              fontSize: 35,
+              fontWeight: "bold",
+              color: "green",
+              letterSpacing: -1,
+            }}
+          >
             Calgary Tree Equity
           </Box>
         </Grid>
@@ -62,8 +69,8 @@ export default function Sidebar(props) {
       <Typography variant="h6" sx={{ mt: 2 }} gutterBottom>
         Comparison
       </Typography>
-      {/* <Typography variant="body2" gutterBottom>
-        Select a comparison year to see the change in canopy cover over time.
+      {/* <Typography variant="body2" sx={{ mb: 2 }} gutterBottom>
+        Select a comparison layer to see the change in canopy cover over time.
       </Typography> */}
 
       <SelectCompareYear
@@ -97,7 +104,7 @@ export default function Sidebar(props) {
         />
       )}
 
-      <Typography variant="body2" sx={{ mt: 4 }} gutterBottom>
+      <Box sx={{ mt:3, fontSize: 12 }}>
         This tool was made by volunteers at the{" "}
         <a target="_blank" href="https://www.calgaryclimatehub.ca">
           Calgary Climate Hub
@@ -107,7 +114,7 @@ export default function Sidebar(props) {
           open data
         </a>{" "}
         and open-source tools.
-      </Typography>
+      </Box>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import "./map.css";
 import { Protocol } from "pmtiles";
 import * as MaplibreglCompare from "@maplibre/maplibre-gl-compare";
 import "@maplibre/maplibre-gl-compare/dist/maplibre-gl-compare.css";
-import { colorMapDiff, colorMapDiffFlat } from "./color_map.js";
+import { colorMapDiffFlat } from "./color_map.js";
 import { PopupContent, PopupContentDiff } from "./PopupContent";
 
 const base_imagery = (year) =>
@@ -16,12 +16,12 @@ const color_map = (year, compareyear) => {
     "step",
     [
       "*",
-      100,
       [
         "%",
         ["-", ["get", String(compareyear)], ["get", String(year)]],
         ["get", String(compareyear)],
       ],
+      100,
     ], //get percent change
     ...colorMapDiffFlat(),
   ];
@@ -167,8 +167,8 @@ export default function Map(props) {
     map.current.on("mousemove", "ct-change", (e) => {
       map.current.getCanvas().style.cursor = "pointer";
 
-      let current_year = Number(e.features[0].properties[props.year]);
-      let next_year = Number(e.features[0].properties[props.compareyear]);
+      let current_year = e.features[0].properties[props.year];
+      let next_year = e.features[0].properties[props.compareyear];
 
       popUpRef.current
         .setLngLat(e.lngLat)

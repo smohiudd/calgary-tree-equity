@@ -12,7 +12,7 @@ function App() {
   const [aerialLayer, setAerialLayer] = useState(false);
   const [compare, setCompare] = useState(false);
   const [year, setYear] = useState(2013);
-  const [compareyear, setCompareYear] = useState(2013);
+  const [compareyear, setCompareYear] = useState(2022);
   const [colormap, setColorMap] = useState(null);
   const [compareCanopy, setCompareCanopy] = useState(false);
   const [compareAerial, setCompareAerial] = useState(false);

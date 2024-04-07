@@ -42,13 +42,13 @@ export default function SelectCompareLayer(props) {
           checked={props.compareCanopy}
           onChange={toggleCanopy}
           control={<Checkbox />}
-          label="Tree Canopy"
+          label="Tree Canopy Outline"
         />
         <FormControlLabel
           checked={props.compareAerial}
           onChange={toggleAerial}
           control={<Checkbox />}
-          label="Orthophoto (Aerial View)"
+          label="Aerial View"
         />
       </FormGroup>
     </FormControl>
