@@ -1,9 +1,9 @@
 .sidebar-container {
     position: absolute;
-    width: 400px;
+    width: 350px;
     top: 0;
     margin: 15px;
-    padding: 35px;
+    padding: 30px;
     box-shadow: 5px 5px 15px grey;
     background-color: white;
   }
