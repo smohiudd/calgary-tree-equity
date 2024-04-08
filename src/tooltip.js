@@ -1,5 +1,5 @@
 const layerDescriptions = {
-    index:"The Tree Equity Index is a value between 0 and 1 that quantifies how equitable tree canopy cover is in Calgary using various demographic factors.",
+    index:"The Tree Equity Score is a value between 0 and 100 that quantifies how equitable tree canopy cover is in Calgary using various priority indicators.",
     canopy_cover:"The percentage of a community that is covered by tree canopy.",
     canopy:"Zoom in to see outlines of individual trees.",
     aerial:"High resolution bird's eye view using aerial photography.",

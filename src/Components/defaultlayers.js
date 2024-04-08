@@ -17,6 +17,7 @@ export default function SelectLayer(props) {
     props.setCompare(false);
     props.setCompareCanopy(false);
     props.setCompareAerial(false);
+    props.setEquityLayer(false)
   };
 
   const toggleCanopy = () => {
@@ -25,6 +26,7 @@ export default function SelectLayer(props) {
     props.setCompareAerial(false);
     props.setCompare(false);
     props.setCanopyLayer((e) => !e);
+    props.setEquityLayer(false)
   };
   const toggleAerial = () => {
     props.setLayer(false);
@@ -32,7 +34,17 @@ export default function SelectLayer(props) {
     props.setCompareAerial(false);
     props.setCompare(false);
     props.setAerialLayer((e) => !e);
+    props.setEquityLayer(false)
   };
+  const toggleIndex = () =>{
+    props.setLayer(false);
+    props.setCompareCanopy(false);
+    props.setCompareAerial(false);
+    props.setCanopyLayer(false);
+    props.setAerialLayer(false);
+    props.setCompare(false);
+    props.setEquityLayer((e) => !e);
+  }
 
   const labeltext = (text, description) => {
     return (
@@ -57,9 +69,9 @@ export default function SelectLayer(props) {
         <FormControlLabel
           value="index"
           control={<Radio />}
-          label={labeltext("Tree Equity Index",layerDescriptions.index)}
-          checked={props.layer === "index"}
-          onChange={toggleLayer}
+          label={labeltext("Tree Equity Score",layerDescriptions.index)}
+          checked={props.equityLayer}
+          onChange={toggleIndex}
         />
         <FormControlLabel
           value="cover"

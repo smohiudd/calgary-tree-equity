@@ -6,7 +6,11 @@ import { Protocol } from "pmtiles";
 import * as MaplibreglCompare from "@maplibre/maplibre-gl-compare";
 import "@maplibre/maplibre-gl-compare/dist/maplibre-gl-compare.css";
 import { colorMapDiffFlat } from "./color_map.js";
-import { PopupContent, PopupContentDiff } from "./PopupContent";
+import {
+  PopupContent,
+  PopupContentDiff,
+  PopupContentEquity,
+} from "./PopupContent";
 
 const base_imagery = (year) =>
   `https://tiles.arcgis.com/tiles/AVP60cs0Q9PEA8rH/arcgis/rest/services/Calgary_${year}_WMASP/MapServer/WMTS/tile/1.0.0/Calgary_${year}_WMASP/default/default028mm/{z}/{y}/{x}.png`;
@@ -36,6 +40,7 @@ export default function Map(props) {
   );
   const popUpContainer = useRef();
   const popUpContainerDiff = useRef();
+  const popUpContainerEquity = useRef();
   const [popUpContent, setPopupContent] = useState([]);
   const map = useRef(null);
   const mapAfter = useRef(null);
@@ -74,6 +79,27 @@ export default function Map(props) {
         layout: {
           visibility:
             props.aerialLayer || props.compareAerial ? "visible" : "none",
+        },
+      });
+
+      map.current.addSource("equity-index", {
+        type: "geojson",
+        data: process.env.REACT_APP_TREE_EQUITY,
+      });
+
+      map.current.addLayer({
+        id: "equity-index",
+        type: "fill",
+        source: "equity-index",
+        layout: {
+          visibility: props.equityLayer ? "visible" : "none",
+        },
+        paint: {
+          "fill-color": {
+            property: "index",
+            stops: props.colormapequity,
+          },
+          "fill-opacity": 0.7,
         },
       });
 
@@ -141,6 +167,27 @@ export default function Map(props) {
       });
     });
   });
+
+  useEffect(() => {
+    map.current.on("mousemove", "equity-index", (e) => {
+      map.current.getCanvas().style.cursor = "pointer";
+      popUpRef.current
+        .setLngLat(e.lngLat)
+        .setDOMContent(popUpContainerEquity.current)
+        .addTo(map.current);
+
+      setPopupContent({
+        name: e.features[0].properties.name,
+        index: e.features[0].properties.index.toFixed(0),
+        priority: e.features[0].properties.priority.toFixed(2)
+      });
+    });
+
+    map.current.on("mouseleave", "equity-index", () => {
+      map.current.getCanvas().style.cursor = "";
+      popUpRef.current.remove();
+    });
+  }, []);
 
   useEffect(() => {
     map.current.on("mousemove", "ct", (e) => {
@@ -310,12 +357,20 @@ export default function Map(props) {
       "visibility",
       props.layer === "diff" ? "visible" : "none"
     );
+
+    //index
+    map.current.setLayoutProperty(
+      "equity-index",
+      "visibility",
+      props.equityLayer  ? "visible" : "none"
+    );
   }, [
     props.canopyLayer,
     props.compareCanopy,
     props.aerialLayer,
     props.compareAerial,
     props.layer,
+    props.equityLayer,
   ]);
 
   // Update Data Map 1
@@ -353,19 +408,17 @@ export default function Map(props) {
       );
   }, [props.compareyear]);
 
-  function CompareYear({ compare, year, compareyear }) {
-    if (compare) {
-      return (
-        <div>
-          <div className="color-white txt-h2 txt-bold flex-parent flex-parent--center-cross flex-parent--center-main  absolute bottom left ml36 mb36 py6 px6 bg-green">
-            <div className="flex-child">{year}</div>
-          </div>
-          <div className="color-white txt-h2 txt-bold flex-parent flex-parent--center-cross flex-parent--center-main absolute bottom right mr36 mb36 py6 px6 bg-green">
-            <div className="flex-child">{compareyear}</div>
-          </div>
+  function CompareYear({ year, compareyear }) {
+    return (
+      <div>
+        <div className="color-white txt-h2 txt-bold flex-parent flex-parent--center-cross flex-parent--center-main  absolute bottom left ml36 mb36 py6 px6 bg-green">
+          <div className="flex-child">{year}</div>
         </div>
-      );
-    }
+        <div className="color-white txt-h2 txt-bold flex-parent flex-parent--center-cross flex-parent--center-main absolute bottom right mr36 mb36 py6 px6 bg-green">
+          <div className="flex-child">{compareyear}</div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -380,11 +433,11 @@ export default function Map(props) {
 
       <PopupContentDiff ref={popUpContainerDiff} content={popUpContent} />
 
-      <CompareYear
-        compare={props.compare}
-        year={props.year}
-        compareyear={props.compareyear}
-      />
+      <PopupContentEquity ref={popUpContainerEquity} content={popUpContent} />
+
+      {props.compare && (
+        <CompareYear year={props.year} compareyear={props.compareyear} />
+      )}
     </div>
   );
 }

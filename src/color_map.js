@@ -1,15 +1,33 @@
 import * as d3 from "d3";
 
+const getColorMap = async (url, year) => {
+  return new Promise((resolve) => {
+    d3.json(url).then((data) => {
+      let minmax = d3.extent(data.features.map((e) => e.properties[year]));
+      let scale = d3.scaleQuantile(
+        data.features.map((e) => e.properties[year]),
+        d3.schemeGreens[5]
+      );
+      resolve(d3.range(minmax[0], minmax[1]).map((x) => [x, scale(x)]));
+    });
+  });
+};
 
-const getColorMap = async (url,year) => {
-  return new Promise((resolve)=>{
-    d3.json(url).then(data => {
-      let minmax = d3.extent(data.features.map(e=>e.properties[year]))
-      let scale = d3.scaleQuantile(data.features.map(e=>e.properties[year]),d3.schemeGreens[5])
-      resolve(d3.range(minmax[0],minmax[1]).map(x=>[x, scale(x)]))
-    })
-  })
-}
+// const getColorMap = () => {
+//   let minmax = [0, 60];
+//   let scale = d3.scaleQuantize(minmax, d3.schemeGreens[8]);
+//   return d3.range(minmax[0], minmax[1]).map((x) => [x, scale(x)]);
+// };
+
+const getColorMapIndex = async (url) => {
+  return new Promise((resolve) => {
+    d3.json(url).then((data) => {
+      let minmax = d3.extent(data.features, (d) => d.properties.index);
+      let scale = d3.scaleQuantize(minmax, d3.schemeRdYlGn[11]);
+      resolve(d3.range(minmax[0], minmax[1]).map((x) => [x, scale(x)]));
+    });
+  });
+};
 
 // const getColorMapDiff = async (url,year,compareyear) => {
 //   return new Promise((resolve)=>{
@@ -30,22 +48,26 @@ const getColorMap = async (url,year) => {
 //   })
 // }
 
-const colorMapDiff=()=>{
-  return d3.scaleDiverging()
-  .domain([-150, 0, 70])
-  .interpolator(d3.interpolateRdYlGn)
-}
+const colorMapDiff = () => {
+  return d3
+    .scaleDiverging()
+    .domain([-150, 0, 70])
+    .interpolator(d3.interpolateRdYlGn);
+};
 
-const colorMapDiffFlat=()=>{
-  let scale = d3.scaleDiverging()
-  .domain([-150, 0, 70])
-  .interpolator(d3.interpolateRdYlGn)
-  return d3.range(-150,70).map((x)=>[x,scale(x)]).flat().slice(1)
-}
+const colorMapDiffFlat = () => {
+  let scale = d3
+    .scaleDiverging()
+    .domain([-150, 0, 70])
+    .interpolator(d3.interpolateRdYlGn);
+  return d3
+    .range(-150, 70)
+    .map((x) => [x, scale(x)])
+    .flat()
+    .slice(1);
+};
 
-
-
-export {getColorMap, colorMapDiff, colorMapDiffFlat}
+export { getColorMap, colorMapDiff, colorMapDiffFlat, getColorMapIndex };
 
 // const getColorMap = async (url,year) => {
 //     d3.json(url).then(data => {
@@ -54,4 +76,3 @@ export {getColorMap, colorMapDiff, colorMapDiffFlat}
 //       return d3.range(minmax[0],minmax[1], 0.1).map(x=>[x, scale(x)])
 //     })
 // }
-

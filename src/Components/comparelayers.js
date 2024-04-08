@@ -12,14 +12,17 @@ export default function SelectCompareLayer(props) {
     props.setCompareAerial(false)
     props.setCanopyLayer(false);
     props.setAerialLayer(false);
+    props.setEquityLayer(false)
   };
   const toggleCanopy = () => {
     props.setLayer(false);
+    props.setEquityLayer(false)
     props.setCompareCanopy((e) => !e);
     if (!props.compareAerial) props.setCompare((e) => !e);
   };
   const toggleAerial = () => {
     props.setLayer(false);
+    props.setEquityLayer(false)
     props.setCompareAerial((e) => !e);
     if (!props.compareCanopy) props.setCompare((e) => !e);
   };

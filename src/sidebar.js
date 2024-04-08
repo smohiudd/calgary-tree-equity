@@ -64,6 +64,8 @@ export default function Sidebar(props) {
         setCompare={props.setCompare}
         setCompareCanopy={props.setCompareCanopy}
         setCompareAerial={props.setCompareAerial}
+        setEquityLayer={props.setEquityLayer}
+        equityLayer={props.equityLayer}
       />
 
       <Typography variant="h6" sx={{ mt: 2 }} gutterBottom>
@@ -101,6 +103,8 @@ export default function Sidebar(props) {
           setCompareCanopy={props.setCompareCanopy}
           compareAerial={props.compareAerial}
           setCompareAerial={props.setCompareAerial}
+          setEquityLayer={props.setEquityLayer}
+          equityLayer={props.equityLayer}
         />
       )}
 
