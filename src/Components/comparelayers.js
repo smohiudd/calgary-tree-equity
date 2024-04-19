@@ -32,7 +32,7 @@ export default function SelectCompareLayer(props) {
       <FormGroup
         aria-labelledby="demo-radio-buttons-group-label"
         name="radio-buttons-group"
-        sx={{ mt: 1, ml:1 }}
+        sx={{ mt: 1, ml:1}}
       >
         <FormControlLabel
           value="diff"

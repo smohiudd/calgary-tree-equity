@@ -23,7 +23,7 @@ const color_map = (year, compareyear) => {
       [
         "%",
         ["-", ["get", String(compareyear)], ["get", String(year)]],
-        ["get", String(compareyear)],
+        ["get", String(year)],
       ],
       100,
     ], //get percent change
@@ -45,9 +45,10 @@ export default function Map(props) {
   const map = useRef(null);
   const mapAfter = useRef(null);
   const mapCompare = useRef(null);
+
   const [lng] = useState(-114.0716);
   const [lat] = useState(51.0589);
-  const [zoom] = useState(10);
+  const [zoom] = useState(10.5);
 
   useEffect(() => {
     let protocol = new Protocol();
@@ -99,7 +100,7 @@ export default function Map(props) {
             property: "index",
             stops: props.colormapequity,
           },
-          "fill-opacity": 0.7,
+          "fill-opacity": 0.6,
         },
       });
 
@@ -161,7 +162,7 @@ export default function Map(props) {
         source: "ct",
         layout: {},
         paint: {
-          "line-color": "#A9A9A9",
+          "line-color": "black",
           "line-width": 1,
         },
       });
@@ -169,6 +170,14 @@ export default function Map(props) {
   });
 
   useEffect(() => {
+    let priority_columns = [
+      "age",
+      "visible_minority",
+      "language",
+      "low_income",
+      "unemployed",
+    ];
+
     map.current.on("mousemove", "equity-index", (e) => {
       map.current.getCanvas().style.cursor = "pointer";
       popUpRef.current
@@ -177,9 +186,16 @@ export default function Map(props) {
         .addTo(map.current);
 
       setPopupContent({
-        name: e.features[0].properties.name,
+        name: e.features[0].properties.DGUID,
+        cover:e.features[0].properties["2020"],
         index: e.features[0].properties.index.toFixed(0),
-        priority: e.features[0].properties.priority.toFixed(2)
+        year: props.year,
+        priority: Object.keys(e.features[0].properties)
+          .filter((key) => priority_columns.includes(key))
+          .map((key) => ({
+            property: key,
+            value: e.features[0].properties[key],
+          })),
       });
     });
 
@@ -224,7 +240,7 @@ export default function Map(props) {
 
       setPopupContent({
         name: e.features[0].properties.name,
-        diff: (((next_year - current_year) / next_year) * 100).toFixed(2),
+        diff: (((next_year - current_year) / current_year) * 100).toFixed(2),
         current_year: props.year,
         next_year: props.compareyear,
       });
@@ -362,7 +378,7 @@ export default function Map(props) {
     map.current.setLayoutProperty(
       "equity-index",
       "visibility",
-      props.equityLayer  ? "visible" : "none"
+      props.equityLayer ? "visible" : "none"
     );
   }, [
     props.canopyLayer,

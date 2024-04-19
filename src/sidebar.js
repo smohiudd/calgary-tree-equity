@@ -13,12 +13,22 @@ export default function Sidebar(props) {
   let years = [2012, 2013, 2015, 2017, 2020, 2022];
 
   return (
-    <div className="sidebar-container">
+    <Box
+      position="absolute"
+      top={0}
+      sx={{
+        maxWidth: { xs: "sm", sm: 340 },
+        p: { xs: 2, sm: 3 },
+        m: { xs: 0.5, sm: 1 },
+        backgroundColor: "white",
+        boxShadow: 3,
+      }}
+    >
       <Grid container spacing={2} columns={16} sx={{ mb: 2 }}>
         <Grid item xs={9}>
           <Box
             sx={{
-              fontSize: 35,
+              fontSize: { xs: 25, sm: 35 },
               fontWeight: "bold",
               color: "green",
               letterSpacing: -1,
@@ -41,7 +51,7 @@ export default function Sidebar(props) {
         </Grid>
       </Grid>
 
-      <Box sx={{ fontSize: 15, mb: 2 }}>
+      <Box sx={{ fontSize: { xs: 14, sm: 15 }, mb: 2, color: "green"}}>
         This tools uses various data sources to help users analyze{" "}
         <a href="https://www.calgaryclimatehub.ca/calgary_tree_equity">
           tree equity
@@ -49,7 +59,9 @@ export default function Sidebar(props) {
         and change in Calgary's tree cover over time.
       </Box>
       {/* <Typography variant="body1" sx={{ mb: 2 }} gutterBottom></Typography> */}
-      <Typography variant="h6" gutterBottom>
+      <Typography
+        sx={{ fontSize: { xs: 14, sm: 18 }, mb: 1, fontWeight: "bold" }}
+      >
         Select a Year
       </Typography>
 
@@ -68,57 +80,53 @@ export default function Sidebar(props) {
         equityLayer={props.equityLayer}
       />
 
-      <Typography variant="h6" sx={{ mt: 2 }} gutterBottom>
-        Comparison
-      </Typography>
-      {/* <Typography variant="body2" sx={{ mb: 2 }} gutterBottom>
+      <Box sx={{ display: { xs: "none", sm: "block" } }}>
+        <Typography
+          sx={{
+            fontSize: { xs: 14, sm: 18 },
+            mb: 1,
+            mt: 2,
+            fontWeight: "bold",
+          }}
+        >
+          Comparison
+        </Typography>
+        {/* <Typography variant="body2" sx={{ mb: 2 }} gutterBottom>
         Select a comparison layer to see the change in canopy cover over time.
       </Typography> */}
-
-      <SelectCompareYear
-        years={years}
-        compareyear={props.compareyear}
-        setCompareYear={props.setCompareYear}
-        setYear={props.setYear}
-        year={props.year}
-        setShowCompare={props.setShowCompare}
-        showcompare={props.showcompare}
-        setLayer={props.setLayer}
-        setAerialLayer={props.setAerialLayer}
-        setCanopyLayer={props.setCanopyLayer}
-        setCompare={props.setCompare}
-        setCompareCanopy={props.setCompareCanopy}
-        setCompareAerial={props.setCompareAerial}
-      />
-
-      {props.showcompare && (
-        <SelectCompareLayer
-          layer={props.layer}
+        <SelectCompareYear
+          years={years}
+          compareyear={props.compareyear}
+          setCompareYear={props.setCompareYear}
+          setYear={props.setYear}
+          year={props.year}
+          setShowCompare={props.setShowCompare}
+          showcompare={props.showcompare}
           setLayer={props.setLayer}
           setAerialLayer={props.setAerialLayer}
           setCanopyLayer={props.setCanopyLayer}
           setCompare={props.setCompare}
-          compareyear={props.compareyear}
-          compareCanopy={props.compareCanopy}
           setCompareCanopy={props.setCompareCanopy}
-          compareAerial={props.compareAerial}
           setCompareAerial={props.setCompareAerial}
-          setEquityLayer={props.setEquityLayer}
-          equityLayer={props.equityLayer}
         />
-      )}
 
-      <Box sx={{ mt:3, fontSize: 12 }}>
-        This tool was made by volunteers at the{" "}
-        <a target="_blank" href="https://www.calgaryclimatehub.ca">
-          Calgary Climate Hub
-        </a>{" "}
-        using{" "}
-        <a target="_blank" href="https://data.calgary.ca/">
-          open data
-        </a>{" "}
-        and open-source tools.
+        {props.showcompare && (
+          <SelectCompareLayer
+            layer={props.layer}
+            setLayer={props.setLayer}
+            setAerialLayer={props.setAerialLayer}
+            setCanopyLayer={props.setCanopyLayer}
+            setCompare={props.setCompare}
+            compareyear={props.compareyear}
+            compareCanopy={props.compareCanopy}
+            setCompareCanopy={props.setCompareCanopy}
+            compareAerial={props.compareAerial}
+            setCompareAerial={props.setCompareAerial}
+            setEquityLayer={props.setEquityLayer}
+            equityLayer={props.equityLayer}
+          />
+        )}
       </Box>
-    </div>
+    </Box>
   );
 }

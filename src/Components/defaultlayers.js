@@ -49,7 +49,7 @@ export default function SelectLayer(props) {
   const labeltext = (text, description) => {
     return (
       <div>
-        <Typography sx={{ display: "flex", alignItems: "center" }}>
+        <Typography sx={{ display: "flex", alignItems: "center", fontSize:14 }}>
           {text}
           <Tooltip title={description} enterDelay={0} placement="right">
             <InfoOutlinedIcon fontSize="small" sx={{ ml: 1 }} />
@@ -69,7 +69,7 @@ export default function SelectLayer(props) {
         <FormControlLabel
           value="index"
           control={<Radio />}
-          label={labeltext("Tree Equity Score",layerDescriptions.index)}
+          label={labeltext("Tree Equity Score (2020 Only)",layerDescriptions.index)}
           checked={props.equityLayer}
           onChange={toggleIndex}
         />

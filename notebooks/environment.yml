@@ -1,0 +1,10 @@
+name: calgary-tree-equity
+channels:
+- conda-forge
+dependencies:
+- dask
+- dask-geopandas
+- geopandas
+- jupyter
+- scikit-learn
+

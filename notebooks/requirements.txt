@@ -1,1 +1,6 @@
 geopandas
+requests
+pandasdmx
+jupyter
+matplotlib
+scikit-learn

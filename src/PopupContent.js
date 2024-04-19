@@ -1,6 +1,7 @@
-import { forwardRef } from "react";
+import { forwardRef, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Barchart from "./barchart";
 
 const PopupContent = forwardRef(function PopupContent(props, ref) {
   return (
@@ -61,6 +62,7 @@ const PopupContentDiff = forwardRef(function PopupContent(props, ref) {
 });
 
 const PopupContentEquity = forwardRef(function PopupContent(props, ref) {
+  const barchartContainer = useRef();
   return (
     <div ref={ref}>
       <Box
@@ -69,13 +71,26 @@ const PopupContentEquity = forwardRef(function PopupContent(props, ref) {
           fontWeight: "bold",
         }}
       >
-        {props.content.name}
+        DGUID: {props.content.name}
       </Box>
-      <Typography variant="body1" color="green">Tree Equity Score</Typography>
-      <Box sx={{ fontWeight: "bold", fontSize: 45, my: 1}}>
+      <Typography sx={{ fontSize: 18, fontWeight: "bold" }} color="green">
+        Tree Equity Score
+      </Typography>
+
+      <Box sx={{ fontWeight: "bold", fontSize: 35, my: 1 }}>
         {props.content.index}
       </Box>
-      {/* <Typography variant="body1" color="grey">Priority Score: {props.content.priority}</Typography> */}
+      <Typography sx={{ fontSize: 13}} color="green">
+      Canopy Cover: {(props.content.cover*100).toFixed(2)}%
+      </Typography>
+      {props.content.priority && (
+        <Box sx={{ display: { xs: "none", sm: "block" } }}>
+          <Barchart
+            ref={barchartContainer}
+            barchartContent={props.content.priority}
+          />
+        </Box>
+      )}
     </div>
   );
 });
