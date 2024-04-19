@@ -34,14 +34,14 @@ const theme = createTheme({
     MuiCheckbox: {
       styleOverrides: {
         root: {
-          padding: 3,
+          padding: 2,
         },
       },
     },
     MuiRadio: {
       styleOverrides: {
         root: {
-          padding: 3,
+          padding: 2,
         },
       },
     },

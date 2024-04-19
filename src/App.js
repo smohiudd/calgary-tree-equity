@@ -30,7 +30,7 @@ function App() {
     getColorMapIndex(process.env.REACT_APP_TREE_EQUITY).then((data) => {
       setColorMapEquity(data);
     });
-  });
+  },[]);
 
   return (
     <ThemeProvider theme={theme}>

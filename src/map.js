@@ -67,6 +67,8 @@ export default function Map(props) {
       zoom: zoom,
     });
 
+    map.current.addControl(new maplibregl.NavigationControl(),'bottom-right');
+
     map.current.on("load", function () {
       map.current.addSource("base-calgary", {
         type: "raster",
