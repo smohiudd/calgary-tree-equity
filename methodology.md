@@ -25,3 +25,11 @@ Percentage of the Dissemination Area over 18 that are classified under [Low-inco
 ### Unemployment Rate
 
 Unemployment rate of the Dissemination Area.
+
+## Canopy Cover Data
+
+Canopy cover data was obtained from the [City of Calgary Open Data Portal](https://data.calgary.ca/). The data contains polygons outlining the extent of tree cover and large shrubs over 2m tall and was derived using City of Calgary Orthophotos and Lidar. 
+
+## Future Work
+
+The original American Forests methodology includes a heat disparity indicator that uses Land Surface Temperature (LST) obtained from [Landsat Collection 2 Level 2 data](https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products). This measure tell us where excess heat is generated in an urban area. This indicator was not included in the initial Tree Equity Score release but may be included in a future release. 
