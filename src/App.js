@@ -34,7 +34,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      {colormap && (
+      {colormap && colormapequity && (
         <Map
           layer={layer}
           canopyLayer={canopyLayer}
