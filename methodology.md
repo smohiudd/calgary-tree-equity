@@ -8,11 +8,11 @@ Data from the [2021 Census Profile](https://www12.statcan.gc.ca/census-recenseme
 
 ### Seniors (65+) and Children (0-4)
 
-The percentage of the Dissemination Area that seniors or children. 
+The percentage of the Dissemination Area that are seniors or children. 
 
 ### Visible Minority
 
-The percentage of the Dissemination Area are are classified as [visible minority](https://www12.statcan.gc.ca/census-recensement/2021/ref/98-500/006/98-500-x2021006-eng.cfm).
+The percentage of the Dissemination Area classified as [visible minority](https://www12.statcan.gc.ca/census-recensement/2021/ref/98-500/006/98-500-x2021006-eng.cfm).
 
 ### Language Isolation
 
