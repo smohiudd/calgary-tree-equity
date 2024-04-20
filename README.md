@@ -2,7 +2,7 @@
 
 The Calgary Tree Equity Mapping Tool uses various data sources to help users analyze Tree Equity Score and change in Calgary's tree cover over time. The Tree Equity Score methodology was developed by [American Forests](https://www.treeequityscore.org/).  
 
-Data sources are retrieved from [Calgary Open Data](https://data.calgary.ca/) and [Statistics Canada 2021 Census Profile](https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/index.cfm?Lang=E). See the [Methodology](methodology) page for more information how the Tree Equity Score was calculated. Resulted can be reproduced using the included [Jupyter Notebooks](notebooks/README.md).
+Data sources are retrieved from [Calgary Open Data](https://data.calgary.ca/) and [Statistics Canada 2021 Census Profile](https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/index.cfm?Lang=E). See the [Methodology](methodology.md) page for more information how the Tree Equity Score was calculated. Resulted can be reproduced using the included [Jupyter Notebooks](notebooks/README.md).
 
 ### Open and Reproducible Data and Analysis
 
