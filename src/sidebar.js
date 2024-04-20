@@ -138,7 +138,7 @@ export default function Sidebar(props) {
         }}
       >
         <Link
-          href="https://github.com/smohiudd/calgary-tree-equity"
+          href="https://github.com/smohiudd/calgary-tree-equity/blob/main/methodology.md"
           target="_blank"
         >
           <HelpOutlineIcon fontSize="small" sx={{ mr: 1 }} />
