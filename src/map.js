@@ -67,7 +67,7 @@ export default function Map(props) {
       zoom: zoom,
     });
 
-    map.current.addControl(new maplibregl.NavigationControl(),'bottom-right');
+    map.current.addControl(new maplibregl.NavigationControl(), "bottom-right");
 
     map.current.on("load", function () {
       map.current.addSource("base-calgary", {
@@ -189,7 +189,7 @@ export default function Map(props) {
 
       setPopupContent({
         name: e.features[0].properties.DGUID,
-        cover:e.features[0].properties["2020"],
+        cover: e.features[0].properties["2020"],
         index: e.features[0].properties.index.toFixed(0),
         year: props.year,
         priority: Object.keys(e.features[0].properties)
@@ -315,13 +315,34 @@ export default function Map(props) {
         },
       });
     });
+    mapCompare.current = new MaplibreglCompare(
+      map.current,
+      mapAfter.current,
+      mapContainerCompare.current,
+      {
+        mousemove: false,
+        orientation: "vertical",
+      }
+    );
   });
 
   useEffect(() => {
-    if (!mapCompare.current && !props.compare) return;
+    if (!mapCompare.current && !props.compare);
     else if (mapCompare.current && !props.compare) {
       mapCompare.current.remove();
     } else {
+      let center = map.current.getCenter();
+      let zoom = map.current.getZoom();
+      let bearing = map.current.getBearing();
+      let pitch = map.current.getPitch();
+
+      mapAfter.current.jumpTo({
+        center: center,
+        zoom: zoom,
+        bearing: bearing,
+        pitch: pitch,
+      });
+
       mapCompare.current = new MaplibreglCompare(
         map.current,
         mapAfter.current,
@@ -441,7 +462,7 @@ export default function Map(props) {
 
   return (
     <div>
-      <div ref={mapContainerCompare} className="map">
+      <div ref={mapContainerCompare} className="map ">
         <div ref={mapContainer} className="map" />
         <div ref={mapContainerAfter} className="map" />
       </div>
