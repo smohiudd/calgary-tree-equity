@@ -11,6 +11,8 @@ import {
   PopupContentDiff,
   PopupContentEquity,
 } from "./PopupContent";
+import Box from "@mui/material/Box";
+import { throttle } from "lodash";
 
 const base_imagery = (year) =>
   `https://tiles.arcgis.com/tiles/AVP60cs0Q9PEA8rH/arcgis/rest/services/Calgary_${year}_WMASP/MapServer/WMTS/tile/1.0.0/Calgary_${year}_WMASP/default/default028mm/{z}/{y}/{x}.png`;
@@ -49,6 +51,7 @@ export default function Map(props) {
   const [lng] = useState(-114.0716);
   const [lat] = useState(51.0589);
   const [zoom] = useState(10.5);
+  const [swipeCenter, setSwipeCenter] = useState(null);
 
   useEffect(() => {
     let protocol = new Protocol();
@@ -352,8 +355,16 @@ export default function Map(props) {
           orientation: "vertical",
         }
       );
+      setSwipeCenter(mapCompare.current.currentPosition);
+
+      mapCompare.current._controlContainer.addEventListener(
+        "mousemove",
+        throttle(() => setSwipeCenter(mapCompare.current.currentPosition), 16)
+      );
     }
   }, [props.compare]);
+
+  // useEffect(() => {});
 
   // Turn on or off layers
   useEffect(() => {
@@ -447,15 +458,48 @@ export default function Map(props) {
       );
   }, [props.compareyear]);
 
-  function CompareYear({ year, compareyear }) {
+  function CompareYear({ year, compareyear, position }) {
     return (
       <div>
-        <div className="color-white txt-h2 txt-bold flex-parent flex-parent--center-cross flex-parent--center-main  absolute bottom left ml36 mb36 py6 px6 bg-green">
-          <div className="flex-child">{year}</div>
-        </div>
-        <div className="color-white txt-h2 txt-bold flex-parent flex-parent--center-cross flex-parent--center-main absolute bottom right mr36 mb36 py6 px6 bg-green">
-          <div className="flex-child">{compareyear}</div>
-        </div>
+        <Box
+          position="absolute"
+          bottom={30}
+          left={position - 130}
+          sx={{
+            backgroundColor: "green",
+            fontSize: 30,
+            width: 80,
+            p: 1,
+            color: "white",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            boxShadow: 3
+          }}
+        >
+          {year}
+        </Box>
+
+        <Box
+          position="absolute"
+          left={position + 30}
+          bottom={30}
+          sx={{
+            backgroundColor: "green",
+            fontSize: 30,
+            width: 80,
+            p: 1,
+            color: "white",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            boxShadow: 3
+          }}
+        >
+          {compareyear}
+        </Box>
       </div>
     );
   }
@@ -475,7 +519,11 @@ export default function Map(props) {
       <PopupContentEquity ref={popUpContainerEquity} content={popUpContent} />
 
       {props.compare && (
-        <CompareYear year={props.year} compareyear={props.compareyear} />
+        <CompareYear
+          year={props.year}
+          compareyear={props.compareyear}
+          position={swipeCenter}
+        />
       )}
     </div>
   );
