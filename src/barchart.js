@@ -27,8 +27,8 @@ function wrap(text, width) {
         tspan = text
           .append("tspan")
           .attr("x", -8)
-          .attr("y", -10)
-          .attr("dy", `${++lineNumber * lineHeight + -0.5}em`)
+          .attr("y", 10)
+          .attr("dy", `${++lineNumber * lineHeight + -0.8}em`)
           .text(word);
       }
     }
