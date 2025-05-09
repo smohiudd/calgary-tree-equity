@@ -7,4 +7,9 @@ dependencies:
 - geopandas
 - jupyter
 - scikit-learn
+- black-jupyter
+- rasterio 
+- pystac-client 
+- planetary-computer 
+- matplotlib
 
