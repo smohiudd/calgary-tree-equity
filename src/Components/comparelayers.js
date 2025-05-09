@@ -1,8 +1,6 @@
-import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
-import Checkbox from "@mui/material/Checkbox";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { layerDescriptions } from "../tooltip"

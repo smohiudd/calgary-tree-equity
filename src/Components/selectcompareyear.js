@@ -4,7 +4,6 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
 
 export default function SelectCompareYear(props) {
   const selectCompareYear = (e) => {
