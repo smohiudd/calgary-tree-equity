@@ -13,7 +13,7 @@ import Link from '@mui/material/Link';
 
 export default function Sidebar(props) {
   let years = [2012, 2013, 2015, 2017, 2020, 2022];
-  const [activePanel, setActivePanel] = useState('singleYear');
+  const [activePanel, setActivePanel] = useState('treeEquity');
 
   const activeTitleStyle = {
     fontWeight: 'bold',
@@ -70,18 +70,51 @@ export default function Sidebar(props) {
         </Grid>
       </Grid>
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-around', mb: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around', mb: 2, borderBottom: '1px solid #e0e0e0', pb: 1 }}>
+        <Typography
+          sx={activePanel === 'treeEquity' ? activeTitleStyle : inactiveTitleStyle}
+          onClick={() => {
+            setActivePanel('treeEquity');
+            props.setEquityLayer(true);
+            props.setLayer(false);
+            props.setCanopyLayer(false);
+            props.setAerialLayer(false);
+            props.setCompare(false);
+            props.setCompareCanopy(false);
+            props.setCompareAerial(false);
+          }}
+        >
+          Tree Equity
+        </Typography>
         <Typography
           sx={activePanel === 'singleYear' ? activeTitleStyle : inactiveTitleStyle}
-          onClick={() => setActivePanel('singleYear')}
+          onClick={() => {
+            setActivePanel('singleYear');
+            props.setLayer('cover');
+            props.setEquityLayer(false);
+            props.setCanopyLayer(false);
+            props.setAerialLayer(false);
+            props.setCompare(false);
+            props.setCompareCanopy(false);
+            props.setCompareAerial(false);
+          }}
         >
-          Single Year Data
+          Canopy Cover
         </Typography>
         <Typography
           sx={activePanel === 'compareYears' ? activeTitleStyle : inactiveTitleStyle}
-          onClick={() => setActivePanel('compareYears')}
+          onClick={() => {
+            setActivePanel('compareYears')
+            props.setLayer('diff');
+            props.setEquityLayer(false);
+            props.setCanopyLayer(false);
+            props.setAerialLayer(false);
+            props.setCompare(false);
+            props.setCompareCanopy(false);
+            props.setCompareAerial(false);
+          }}
         >
-          Compare Two Years
+          Compare Years
         </Typography>
       </Box>
 
@@ -106,7 +139,7 @@ export default function Sidebar(props) {
       )}
 
       {activePanel === 'compareYears' && (
-        <Box sx={{ mt: 0, p: 2, textAlign: 'center' }}>
+        <Box>
         <SelectCompareYear
           years={years}
           compareyear={props.compareyear}
@@ -139,6 +172,12 @@ export default function Sidebar(props) {
             equityLayer={props.equityLayer}
           />
         )}
+        </Box>
+      )}
+
+      {activePanel === 'treeEquity' && (
+        <Box sx={{ mt: 2, p: 2, textAlign: 'center' }}>
+          <Typography>Placeholder for Tree Equity Panel</Typography>
         </Box>
       )}
       

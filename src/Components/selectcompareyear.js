@@ -22,18 +22,18 @@ export default function SelectCompareYear(props) {
   };
   const selectYear = (e) => props.setYear(e.target.value);
   return (
-    <Grid container spacing={2} columns={16} sx={{ mb: 1 }}>
+    <Grid container spacing={2} columns={16}>
       <Grid item xs={8}>
         <FormControl variant="standard" sx={{ width: "100%" }}>
-          <InputLabel id="demo-simple-select-standard-label">
+          <InputLabel id="initial-year-label">
             Initial Year (Left)
           </InputLabel>
           <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
+            labelId="initial-year-label"
+            id="initial-year-select"
             onChange={selectYear}
-            label="Start year"
             value={props.year}
+            sx={{ fontSize: 18, color:'green' }}
           >
             {props.years.map((item) => (
               <MenuItem value={item} key={item}>
@@ -45,16 +45,16 @@ export default function SelectCompareYear(props) {
       </Grid>
       <Grid item xs={8}>
         <FormControl variant="standard" sx={{ width: "100%" }}>
-          <InputLabel id="demo-simple-select-standard-label">
+          <InputLabel id="comparison-year-label">
             Comparison Year (Right)
           </InputLabel>
           <Select
             displayEmpty
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
+            labelId="comparison-year-label"
+            id="comparison-year-select"
             onChange={selectCompareYear}
             value={props.compareyear}
-            label="Comparison Year"
+            sx={{ fontSize: 18, color:'green' }}
             renderValue={
               props.showcompare
                 ? undefined

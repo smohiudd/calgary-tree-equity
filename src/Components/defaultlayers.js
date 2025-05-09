@@ -34,15 +34,6 @@ export default function SelectLayer(props) {
     props.setAerialLayer((e) => !e);
     props.setEquityLayer(false)
   };
-  const toggleIndex = () =>{
-    props.setLayer(false);
-    props.setCompareCanopy(false);
-    props.setCompareAerial(false);
-    props.setCanopyLayer(false);
-    props.setAerialLayer(false);
-    props.setCompare(false);
-    props.setEquityLayer((e) => !e);
-  }
 
   const labeltext = (text, isActive) => {
     return (
@@ -63,40 +54,8 @@ export default function SelectLayer(props) {
       <FormGroup
         aria-labelledby="demo-radio-buttons-group-label"
         name="radio-buttons-group"
-        sx={{ mt: 1, width: "100%" }}
+        sx={{ mt: 3, width: "100%" }}
       >
-        <Box
-          onClick={props.year === 2020 ? toggleIndex : undefined}
-          sx={{
-            minHeight: "100px",
-            width: "100%",
-            backgroundColor: props.equityLayer && props.year === 2020 ? "#e1feda" : "white",
-            border: props.equityLayer && props.year === 2020 ? "2px solid darkgreen" : "2px solid lightgray",
-            borderRadius: "4px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            justifyContent: "center",
-            cursor: props.year === 2020 ? "pointer" : "default",
-            mb: 1,
-            p: 1,
-            boxSizing: 'border-box', 
-            opacity: props.year === 2020 ? 1 : 0.5,
-            '&:hover': {
-              borderColor: props.year === 2020 ? 'darkgreen' : 'lightgray',
-            }
-          }}
-        >
-          {labeltext("Tree Equity Score (2020 Only)", props.equityLayer && props.year === 2020)}
-          <Typography variant="caption" sx={{
-            mt: 0.5, 
-            textAlign: 'left', 
-            color: props.equityLayer && props.year === 2020 ? '#47793b' : '#98a894'
-          }}>
-            {layerDescriptions.index}
-          </Typography>
-        </Box>
-
         <Box
           onClick={() => toggleLayer({ target: { value: "cover" } })}
           sx={{
@@ -129,6 +88,7 @@ export default function SelectLayer(props) {
         </Box>
 
         <Box
+          onClick={toggleAerial}
           sx={{
             minHeight: "100px",
             height: "auto",
@@ -148,18 +108,7 @@ export default function SelectLayer(props) {
             }
           }}
         >
-          <Box
-            onClick={toggleAerial}
-            sx={{
-              cursor: "pointer",
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'flex-start',
-              flexGrow: 1
-            }}
-          >
+       
             {labeltext("Aerial View", props.aerialLayer)}
             <Typography variant="caption" sx={{
               mt: 0.5, 
@@ -168,7 +117,7 @@ export default function SelectLayer(props) {
             }}>
               {layerDescriptions.aerial}
             </Typography>
-          </Box>
+    
 
           <FormControlLabel
             control={
@@ -176,6 +125,7 @@ export default function SelectLayer(props) {
                 checked={props.canopyLayer}
                 onChange={toggleCanopy}
                 onClick={(e) => e.stopPropagation()}
+                disabled={!props.aerialLayer}
               />
             }
             label={<Typography sx={{
