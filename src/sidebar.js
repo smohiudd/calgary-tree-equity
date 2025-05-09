@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./sidebar.css";
 
 import SelectYear from "./Components/selectyear";
@@ -13,6 +13,23 @@ import Link from '@mui/material/Link';
 
 export default function Sidebar(props) {
   let years = [2012, 2013, 2015, 2017, 2020, 2022];
+  const [activePanel, setActivePanel] = useState('singleYear');
+
+  const activeTitleStyle = {
+    fontWeight: 'bold',
+    color: '#47793b',
+    cursor: 'pointer',
+    pb: 0.5,
+    borderBottom: '2px solid #47793b',
+  };
+
+  const inactiveTitleStyle = {
+    fontWeight: 'normal',
+    color: '#98a894',
+    cursor: 'pointer',
+    pb: 0.5,
+    borderBottom: '2px solid transparent',
+  };
 
   return (
     <Box
@@ -53,48 +70,43 @@ export default function Sidebar(props) {
         </Grid>
       </Grid>
 
-      <Box sx={{ fontSize: { xs: 15, sm: 17 }, mb: 2, color: "green" }}>
-        This tool uses various open data sources to show{" "}
-        <a href="https://www.calgaryclimatehub.ca/calgary_tree_equity">
-          tree equity
-        </a> in Calgary.
+      <Box sx={{ display: 'flex', justifyContent: 'space-around', mb: 2 }}>
+        <Typography
+          sx={activePanel === 'singleYear' ? activeTitleStyle : inactiveTitleStyle}
+          onClick={() => setActivePanel('singleYear')}
+        >
+          Single Year Data
+        </Typography>
+        <Typography
+          sx={activePanel === 'compareYears' ? activeTitleStyle : inactiveTitleStyle}
+          onClick={() => setActivePanel('compareYears')}
+        >
+          Compare Two Years
+        </Typography>
       </Box>
-      {/* <Typography variant="body1" sx={{ mb: 2 }} gutterBottom></Typography> */}
 
-      <Box sx={{ display: { xs: "none", sm: "block" } }}>
-        <Typography
-          sx={{ fontSize: { xs: 14, sm: 18 }, mb: 1, fontWeight: "bold" }}
-        >
-          Select a Year
-        </Typography>
-        <SelectYear years={years} year={props.year} setYear={props.setYear} />
-        <SelectLayer
-          layer={props.layer}
-          canopyLayer={props.canopyLayer}
-          aerialLayer={props.aerialLayer}
-          setLayer={props.setLayer}
-          setAerialLayer={props.setAerialLayer}
-          setCanopyLayer={props.setCanopyLayer}
-          setCompare={props.setCompare}
-          setCompareCanopy={props.setCompareCanopy}
-          setCompareAerial={props.setCompareAerial}
-          setEquityLayer={props.setEquityLayer}
-          equityLayer={props.equityLayer}
-        />
+      {activePanel === 'singleYear' && (
+        <Box>
+          <SelectYear years={years} year={props.year} setYear={props.setYear} />
+          <SelectLayer
+            layer={props.layer}
+            canopyLayer={props.canopyLayer}
+            aerialLayer={props.aerialLayer}
+            setLayer={props.setLayer}
+            setAerialLayer={props.setAerialLayer}
+            setCanopyLayer={props.setCanopyLayer}
+            setCompare={props.setCompare}
+            setCompareCanopy={props.setCompareCanopy}
+            setCompareAerial={props.setCompareAerial}
+            setEquityLayer={props.setEquityLayer}
+            equityLayer={props.equityLayer}
+            year={props.year}
+          />
+        </Box>
+      )}
 
-        <Typography
-          sx={{
-            fontSize: { xs: 14, sm: 18 },
-            mb: 1,
-            mt: 2,
-            fontWeight: "bold",
-          }}
-        >
-          Comparison
-        </Typography>
-        {/* <Typography variant="body2" sx={{ mb: 2 }} gutterBottom>
-        Select a comparison layer to see the change in canopy cover over time.
-      </Typography> */}
+      {activePanel === 'compareYears' && (
+        <Box sx={{ mt: 0, p: 2, textAlign: 'center' }}>
         <SelectCompareYear
           years={years}
           compareyear={props.compareyear}
@@ -127,7 +139,9 @@ export default function Sidebar(props) {
             equityLayer={props.equityLayer}
           />
         )}
-      </Box>
+        </Box>
+      )}
+      
       <Box
         sx={{
           display: "flex",
