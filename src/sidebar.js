@@ -43,14 +43,18 @@ export default function Sidebar(props) {
         boxShadow: 3,
       }}
     >
-      <Grid container spacing={2} columns={16} sx={{ mb: 2 }}>
+      <Grid container spacing={2} columns={16} sx={{ mb: 3 }}>
         <Grid item xs={9}>
           <Box
             sx={{
-              fontSize: { xs: 30, sm: 35 },
+              fontSize: { xs: 32, sm: 38 },
               fontWeight: "bold",
-              color: "green",
               letterSpacing: -1,
+              fontFamily: "'Roboto', 'Helvetica Neue', Arial, sans-serif",
+              background: "linear-gradient(45deg, #2e7d32 30%, #4caf50 90%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              lineHeight: 1.1,
             }}
           >
             Calgary Tree Equity
@@ -70,7 +74,7 @@ export default function Sidebar(props) {
         </Grid>
       </Grid>
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-around', mb: 2, borderBottom: '1px solid #e0e0e0', pb: 1 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around', mb: 2, borderBottom: '1px solid #e0e0e0', pb: 2 }}>
         <Typography
           sx={activePanel === 'treeEquity' ? activeTitleStyle : inactiveTitleStyle}
           onClick={() => {
@@ -176,8 +180,83 @@ export default function Sidebar(props) {
       )}
 
       {activePanel === 'treeEquity' && (
-        <Box sx={{ mt: 2, p: 2, textAlign: 'center' }}>
-          <Typography>Placeholder for Tree Equity Panel</Typography>
+        <Box sx={{ mt: 2, p: 2 }}>
+          {props.priorityData && Object.keys(props.priorityData).length > 0 ? (
+            <>
+              <Typography 
+                variant="caption" 
+                display="block" 
+                gutterBottom 
+                sx={{ textAlign: 'center', color: 'grey', width: '100%', mb: 2 }}>
+                DGUID: {props.priorityData.DGUID}
+              </Typography>
+              <Grid container spacing={2} sx={{ mb: 3, textAlign: 'center' }}>
+                <Grid item xs={6}>
+                  <Typography 
+                    variant="h3" 
+                    component="div" 
+                    sx={{
+                      fontWeight: 'bold',
+                      color: (() => {
+                        const score = props.priorityData.index;
+                        if (score === undefined) return 'inherit'; // Default color if no score
+                        if (score <= 70) return '#d32f2f'; // Red
+                        if (score <= 80) return '#f57c00'; // Orange
+                        return '#388e3c'; // Green
+                      })()
+                    }}
+                  >
+                    {props.priorityData.index !== undefined ? props.priorityData.index.toFixed(0) : 'N/A'}
+                  </Typography>
+                  <Typography variant="caption" display="block" gutterBottom>
+                    Tree Equity Score
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="h3" component="div" sx={{ fontWeight: 'bold' }}>
+                    {props.priorityData['2020'] !== undefined ? `${(props.priorityData['2020'] * 100).toFixed(1)}%` : 'N/A'}
+                  </Typography>
+                  <Typography variant="caption" display="block" gutterBottom>
+                    Canopy Cover (2020)
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: '#38761d', textAlign: 'center', mb: 2 }}>
+                Priority Indicators
+              </Typography>
+
+              <Grid container spacing={1} sx={{ textAlign: 'center', backgroundColor: '#edf7ee', borderRadius: 1, p: 2 }}>
+                {[
+                  { key: 'age', label: 'Seniors (% 65+)' },
+                  { key: 'visible_minority', label: 'Visible Minority (%)' },
+                  { key: 'language', label: 'Language Barrier (%)' },
+                  { key: 'low_income', label: 'Low Income (%)' },
+                  { key: 'unemployed', label: 'Unemployment (%)' }
+                ].map(metric => (
+                  props.priorityData[metric.key] !== undefined && (
+                    <Grid item xs={4} key={metric.key} sx={{ mb: 1 }}>
+                      <Typography variant="h6" component="div" sx={{ fontWeight: 'medium' }}>
+                        {`${(props.priorityData[metric.key] * 100).toFixed(1)}%`}
+                      </Typography>
+                      <Typography variant="caption" display="block" gutterBottom sx={{ fontSize: '0.65rem' }}>
+                        {metric.label}
+                      </Typography>
+                    </Grid>
+                  )
+                ))}
+              </Grid>
+            </>
+          ) : (
+            <Box>
+              <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', mb: 1.5 }}>
+                The Tree Equity Score is a measure that combines tree canopy data with demographic indicators to show which areas are under-treed and why it matters.
+              </Typography>
+              <Typography variant="body2" sx={{ textAlign: 'left', fontWeight: 'bold', color: 'black' }}>
+                Hover over a dissemination area on the map to see the Tree Equity Score and priority indicators for that area.
+              </Typography>
+            </Box>
+          )}
         </Box>
       )}
       

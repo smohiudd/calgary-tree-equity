@@ -80,17 +80,17 @@ const PopupContentEquity = forwardRef(function PopupContent(props, ref) {
       <Box sx={{ fontWeight: "bold", fontSize: 35, my: 1 }}>
         {props.content.index}
       </Box>
-      <Typography sx={{ fontSize: 13}} color="green">
+      {/* <Typography sx={{ fontSize: 13}} color="green">
       Canopy Cover: {(props.content.cover*100).toFixed(2)}%
-      </Typography>
-      {props.content.priority && (
+      </Typography> */}
+      {/* {props.content.priority && (
         <Box sx={{ display: { xs: "none", sm: "block" } }}>
           <Barchart
             ref={barchartContainer}
             barchartContent={props.content.priority}
           />
         </Box>
-      )}
+      )} */}
     </div>
   );
 });

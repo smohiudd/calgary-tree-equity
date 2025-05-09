@@ -35,11 +35,17 @@ export default function SelectCompareLayer(props) {
     if (!props.compareCanopy) props.setCompare((e) => !e);
   };
 
-  const labeltext = (text) => {
+  const labeltext = (text, isActive) => {
     return (
-      <div>
-        <Typography sx={{ fontSize: 14 }}>{text}</Typography>
-      </div>
+      <Typography sx={{
+        display: "flex", 
+        alignItems: "center", 
+        fontSize:14, 
+        fontWeight: "bold", 
+        color: isActive ? '#47793b' : '#98a894'
+      }}>
+        {text}
+      </Typography>
     );
   };
 
@@ -55,8 +61,8 @@ export default function SelectCompareLayer(props) {
           sx={{
             minHeight: "100px",
             width: "100%",
-            backgroundColor: props.layer === "diff" ? "#e1feda" : "white",
-            border: props.layer === "diff" ? "2px solid darkgreen" : "2px solid lightgray",
+            backgroundColor: props.layer === "diff" ? "#edf7ee" : "white",
+            border: props.layer === "diff" ? "1px solid darkgreen" : "1px solid lightgray",
             borderRadius: "4px",
             display: "flex",
             flexDirection: "column",
@@ -87,8 +93,8 @@ export default function SelectCompareLayer(props) {
             minHeight: "100px",
             height: "auto",
             width: "100%",
-            backgroundColor: props.compareAerial ? "#e1feda" : "white",
-            border: props.compareAerial ? "2px solid darkgreen" : "2px solid lightgray",
+            backgroundColor: props.compareAerial ? "#edf7ee" : "white",
+            border: props.compareAerial ? "1px solid darkgreen" : "1px solid lightgray",
             borderRadius: "4px",
             display: "flex",
             flexDirection: "column",

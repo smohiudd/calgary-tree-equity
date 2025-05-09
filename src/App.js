@@ -19,7 +19,7 @@ function App() {
   const [compareCanopy, setCompareCanopy] = useState(false);
   const [compareAerial, setCompareAerial] = useState(false);
   const [showcompare, setShowCompare] = useState(true);
-
+  const [priorityData, setPriorityData] = useState(null);
   useEffect(() => {
     getColorMap(process.env.REACT_APP_TREE_CANOPY, year).then((data) =>
       setColorMap(data)
@@ -48,6 +48,7 @@ function App() {
           setCompare={setCompare}
           compareCanopy={compareCanopy}
           compareAerial={compareAerial}
+          setPriorityData={setPriorityData}
         />
       )}
 
@@ -72,6 +73,7 @@ function App() {
         setShowCompare={setShowCompare}
         equityLayer={equityLayer}
         setEquityLayer={setEquityLayer}
+        priorityData={priorityData}
       />
     </ThemeProvider>
   );
