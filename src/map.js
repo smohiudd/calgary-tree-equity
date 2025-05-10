@@ -175,13 +175,13 @@ export default function Map(props) {
   });
 
   useEffect(() => {
-    let priority_columns = [
-      "age",
-      "visible_minority",
-      "language",
-      "low_income",
-      "unemployed",
-    ];
+    // let priority_columns = [
+    //   "age",
+    //   "visible_minority",
+    //   "language",
+    //   "low_income",
+    //   "unemployed",
+    // ];
 
     map.current.on("mousemove", "equity-index", (e) => {
       map.current.getCanvas().style.cursor = "pointer";
@@ -190,23 +190,26 @@ export default function Map(props) {
         .setDOMContent(popUpContainerEquity.current)
         .addTo(map.current);
 
+      props.setPriorityData(e.features[0].properties);
+
       setPopupContent({
         name: e.features[0].properties.DGUID,
         cover: e.features[0].properties["2020"],
         index: e.features[0].properties.index.toFixed(0),
-        year: props.year,
-        priority: Object.keys(e.features[0].properties)
-          .filter((key) => priority_columns.includes(key))
-          .map((key) => ({
-            property: key,
-            value: e.features[0].properties[key],
-          })),
+        // year: props.year,
+        // priority: Object.keys(e.features[0].properties)
+        //   .filter((key) => priority_columns.includes(key))
+        //   .map((key) => ({
+        //     property: key,
+        //     value: e.features[0].properties[key],
+        //   })),
       });
     });
 
     map.current.on("mouseleave", "equity-index", () => {
       map.current.getCanvas().style.cursor = "";
       popUpRef.current.remove();
+      props.setPriorityData(null)
     });
   }, []);
 

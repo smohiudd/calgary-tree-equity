@@ -1,12 +1,10 @@
-import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
-import Checkbox from "@mui/material/Checkbox";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
 import { layerDescriptions } from "../tooltip"
+import Box from "@mui/material/Box";
+import Switch from "@mui/material/Switch";
 
 
 export default function SelectLayer(props) {
@@ -36,62 +34,109 @@ export default function SelectLayer(props) {
     props.setAerialLayer((e) => !e);
     props.setEquityLayer(false)
   };
-  const toggleIndex = () =>{
-    props.setLayer(false);
-    props.setCompareCanopy(false);
-    props.setCompareAerial(false);
-    props.setCanopyLayer(false);
-    props.setAerialLayer(false);
-    props.setCompare(false);
-    props.setEquityLayer((e) => !e);
-  }
 
-  const labeltext = (text, description) => {
+  const labeltext = (text, isActive) => {
     return (
-      <div>
-        <Typography sx={{ display: "flex", alignItems: "center", fontSize:14 }}>
-          {text}
-          <Tooltip title={description} enterDelay={0} placement="right">
-            <InfoOutlinedIcon fontSize="small" sx={{ ml: 1 }} />
-          </Tooltip>
-        </Typography>
-      </div>
+      <Typography sx={{
+        display: "flex", 
+        alignItems: "center", 
+        fontSize:16, 
+        fontWeight: "bold", 
+        color: '#0a451a'
+      }}>
+        {text}
+      </Typography>
     );
   };
 
   return (
-    <FormControl>
+    <FormControl sx={{ width: "100%" }}>
       <FormGroup
         aria-labelledby="demo-radio-buttons-group-label"
         name="radio-buttons-group"
-        sx={{ mt: 1, ml: 1 }}
+        sx={{ mt: 3, width: "100%" }}
       >
-        <FormControlLabel
-          value="index"
-          control={<Radio />}
-          label={labeltext("Tree Equity Score (2020 Only)",layerDescriptions.index)}
-          checked={props.equityLayer}
-          onChange={toggleIndex}
-        />
-        <FormControlLabel
-          value="cover"
-          control={<Radio />}
-          label={labeltext("Canopy Cover (%)",layerDescriptions.canopy_cover)}
-          checked={props.layer === "cover"}
-          onChange={toggleLayer}
-        />
-        <FormControlLabel
-          checked={props.canopyLayer}
-          onChange={toggleCanopy}
-          control={<Checkbox />}
-          label={labeltext("Tree Canopy Outline",layerDescriptions.canopy)}
-        />
-        <FormControlLabel
-          checked={props.aerialLayer}
-          onChange={toggleAerial}
-          control={<Checkbox />}
-          label={labeltext("Aerial View",layerDescriptions.aerial)}
-        />
+        <Box
+          onClick={() => toggleLayer({ target: { value: "cover" } })}
+          sx={{
+            minHeight: "100px",
+            width: "100%",
+            backgroundColor: props.layer === "cover" ? "#edf7ee" : "white",
+            border: props.layer === "cover" ? "1px solid #14692a" : "1px solid lightgray",
+            borderRadius: "4px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            cursor: "pointer",
+            mb: 1,
+            p: 1,
+            boxSizing: 'border-box',
+            '&:hover': {
+              borderColor: 'darkgreen',
+            }
+          }}
+        >
+          {labeltext("Canopy Cover (%)", props.layer === "cover")}
+          <Typography variant="body2" sx={{
+            mt: 0.5, 
+            textAlign: 'left', 
+            color: '#47793b',
+          }}>
+            {layerDescriptions.canopy_cover}
+          </Typography>
+        </Box>
+
+        <Box
+          onClick={toggleAerial}
+          sx={{
+            minHeight: "100px",
+            height: "auto",
+            width: "100%",
+            backgroundColor: props.aerialLayer ? "#edf7ee" : "white",
+            border: props.aerialLayer ? "1px solid #14692a" : "1px solid lightgray",
+            borderRadius: "4px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "center", 
+            cursor: "pointer",
+            mb: 1,
+            p: 1,
+            boxSizing: 'border-box',
+            '&:hover': {
+              borderColor: 'darkgreen',
+            }
+          }}
+        >
+       
+            {labeltext("Aerial View", props.aerialLayer)}
+            <Typography variant="body2" sx={{
+              mt: 0.5, 
+              textAlign: 'left', 
+              color: '#47793b',
+            }}>
+              {layerDescriptions.aerial}
+            </Typography>
+    
+
+          <FormControlLabel
+            control={
+              <Switch
+                checked={props.canopyLayer}
+                onChange={toggleCanopy}
+                onClick={(e) => e.stopPropagation()}
+                disabled={!props.aerialLayer}
+              />
+            }
+            label={<Typography sx={{
+              fontSize:14, 
+              color: props.aerialLayer ? '#47793b' : '#98a894'
+            }}>Show individual tree outlines</Typography>}
+            sx={{ mt: 0.5, width: '100%' }} 
+            onClick={(e) => e.stopPropagation()} 
+          />
+        </Box>
       </FormGroup>
     </FormControl>
   );
