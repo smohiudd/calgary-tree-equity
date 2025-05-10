@@ -32,7 +32,7 @@ export default function SelectCompareYear(props) {
             id="initial-year-select"
             onChange={selectYear}
             value={props.year}
-            sx={{ fontSize: 18, color:'green' }}
+            sx={{ fontSize: 18, color:'#0a451a', fontWeight: "bold" }}
           >
             {props.years.map((item) => (
               <MenuItem value={item} key={item}>
@@ -53,7 +53,7 @@ export default function SelectCompareYear(props) {
             id="comparison-year-select"
             onChange={selectCompareYear}
             value={props.compareyear}
-            sx={{ fontSize: 18, color:'green' }}
+            sx={{ fontSize: 18, color:'#0a451a', fontWeight: "bold" }}
             renderValue={
               props.showcompare
                 ? undefined

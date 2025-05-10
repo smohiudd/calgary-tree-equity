@@ -1,7 +1,6 @@
-import { forwardRef, useRef, useState } from "react";
+import { forwardRef} from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Barchart from "./barchart";
 
 const PopupContent = forwardRef(function PopupContent(props, ref) {
   return (
@@ -62,22 +61,21 @@ const PopupContentDiff = forwardRef(function PopupContent(props, ref) {
 });
 
 const PopupContentEquity = forwardRef(function PopupContent(props, ref) {
-  const barchartContainer = useRef();
   return (
-    <div ref={ref}>
-      <Box
+    <div ref={ref} style={{ textAlign: "center" }}>
+      {/* <Box
         sx={{
           fontSize: 13,
           fontWeight: "bold",
         }}
       >
         DGUID: {props.content.name}
-      </Box>
-      <Typography sx={{ fontSize: 18, fontWeight: "bold" }} color="green">
+      </Box> */}
+      <Typography sx={{ fontSize: 18, fontWeight: "bold", mb:2 }} color="green">
         Tree Equity Score
       </Typography>
 
-      <Box sx={{ fontWeight: "bold", fontSize: 35, my: 1 }}>
+      <Box sx={{ fontWeight: "bold", fontSize: 45, my: 1 }}>
         {props.content.index}
       </Box>
       {/* <Typography sx={{ fontSize: 13}} color="green">

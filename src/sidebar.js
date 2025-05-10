@@ -74,13 +74,13 @@ export default function Sidebar(props) {
         </Grid>
       </Grid>
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-around', mb: 2, borderBottom: '1px solid #e0e0e0', pb: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e0e0e0', mb: 3}}>
         <Typography
           sx={activePanel === 'treeEquity' ? activeTitleStyle : inactiveTitleStyle}
           onClick={() => {
             setActivePanel('treeEquity');
-            props.setEquityLayer(true);
             props.setLayer(false);
+            props.setEquityLayer(true);
             props.setCanopyLayer(false);
             props.setAerialLayer(false);
             props.setCompare(false);
@@ -94,13 +94,17 @@ export default function Sidebar(props) {
           sx={activePanel === 'singleYear' ? activeTitleStyle : inactiveTitleStyle}
           onClick={() => {
             setActivePanel('singleYear');
-            props.setLayer('cover');
+            if(props.layer) props.setLayer('cover');
+            if(props.equityLayer) props.setLayer('cover')
+            if(props.compareAerial) {
+              props.setCompareAerial(false);
+              props.setAerialLayer(true);
+              props.setLayer(null);
+            }
             props.setEquityLayer(false);
-            props.setCanopyLayer(false);
-            props.setAerialLayer(false);
             props.setCompare(false);
             props.setCompareCanopy(false);
-            props.setCompareAerial(false);
+
           }}
         >
           Canopy Cover
@@ -109,13 +113,17 @@ export default function Sidebar(props) {
           sx={activePanel === 'compareYears' ? activeTitleStyle : inactiveTitleStyle}
           onClick={() => {
             setActivePanel('compareYears')
-            props.setLayer('diff');
+            if(props.layer) props.setLayer('diff');
+            if(props.equityLayer) props.setLayer('diff')
             props.setEquityLayer(false);
             props.setCanopyLayer(false);
             props.setAerialLayer(false);
             props.setCompare(false);
-            props.setCompareCanopy(false);
-            props.setCompareAerial(false);
+            if(props.aerialLayer) {
+              props.setCompare(true);
+              props.setCompareAerial(true);
+              if(props.canopyLayer) props.setCompareCanopy(true);
+            }
           }}
         >
           Compare Years
@@ -180,7 +188,7 @@ export default function Sidebar(props) {
       )}
 
       {activePanel === 'treeEquity' && (
-        <Box sx={{ mt: 2, p: 2 }}>
+        <Box sx={{ mt: 2, p: 1 }}>
           {props.priorityData && Object.keys(props.priorityData).length > 0 ? (
             <>
               <Typography 
@@ -245,12 +253,22 @@ export default function Sidebar(props) {
                     </Grid>
                   )
                 ))}
+                {props.priorityData.temp_diff !== undefined && (
+                  <Grid item xs={4} key="temp_diff" sx={{ mb: 1 }}>
+                    <Typography variant="h6" component="div" sx={{ fontWeight: 'medium' }}>
+                      {`${props.priorityData.temp_diff.toFixed(1)}°C`}
+                    </Typography>
+                    <Typography variant="caption" display="block" gutterBottom sx={{ fontSize: '0.65rem' }}>
+                      Heat Disparity
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
             </>
           ) : (
             <Box>
               <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', mb: 1.5 }}>
-                The Tree Equity Score is a measure that combines tree canopy data with demographic indicators to show which areas are under-treed and why it matters.
+              The Tree Equity Score combines tree canopy data with key demographic indicators to assess how fairly communities benefit from urban trees.
               </Typography>
               <Typography variant="body2" sx={{ textAlign: 'left', fontWeight: 'bold', color: 'black' }}>
                 Hover over a dissemination area on the map to see the Tree Equity Score and priority indicators for that area.

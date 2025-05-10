@@ -175,13 +175,13 @@ export default function Map(props) {
   });
 
   useEffect(() => {
-    let priority_columns = [
-      "age",
-      "visible_minority",
-      "language",
-      "low_income",
-      "unemployed",
-    ];
+    // let priority_columns = [
+    //   "age",
+    //   "visible_minority",
+    //   "language",
+    //   "low_income",
+    //   "unemployed",
+    // ];
 
     map.current.on("mousemove", "equity-index", (e) => {
       map.current.getCanvas().style.cursor = "pointer";

@@ -12,7 +12,7 @@ export default function SelectYear(props) {
         labelId="select-year-label"
         value={props.year}
         onChange={selectYear}
-        sx={{ fontSize: 18, color:'green' }}
+        sx={{ fontSize: 18, color:'#0a451a', fontWeight: "bold" }}
       >
         {props.years.map((item) => (
           <MenuItem value={item} key={item}>

@@ -38,9 +38,9 @@ export default function SelectCompareLayer(props) {
       <Typography sx={{
         display: "flex", 
         alignItems: "center", 
-        fontSize:14, 
+        fontSize:16, 
         fontWeight: "bold", 
-        color: isActive ? '#47793b' : '#98a894'
+        color: '#0a451a'
       }}>
         {text}
       </Typography>
@@ -76,10 +76,10 @@ export default function SelectCompareLayer(props) {
           }}
         >
           {labeltext("Canopy Cover Change (%)", props.layer === "diff")}
-          <Typography variant="caption" sx={{
+          <Typography variant="body2" sx={{
             mt: 0.5, 
             textAlign: 'left', 
-            color: props.layer === "cover" ? '#47793b' : '#98a894'
+            color: '#47793b',
           }}>
             {layerDescriptions.canopy_cover}
           </Typography>
@@ -98,6 +98,7 @@ export default function SelectCompareLayer(props) {
             flexDirection: "column",
             alignItems: "flex-start",
             justifyContent: "center", 
+            cursor: "pointer",
             mb: 1,
             p: 1,
             boxSizing: 'border-box',
@@ -108,10 +109,10 @@ export default function SelectCompareLayer(props) {
         >
        
             {labeltext("Aerial View", props.compareAerial)}
-            <Typography variant="caption" sx={{
+            <Typography variant="body2" sx={{
               mt: 0.5, 
               textAlign: 'left', 
-              color: props.compareAerial ? '#47793b' : '#98a894'
+              color: '#47793b',
             }}>
               {layerDescriptions.aerial}
             </Typography>
