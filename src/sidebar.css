@@ -7,6 +7,9 @@
     padding: 30px;
     box-shadow: 5px 5px 10px grey;
     background-color: white;
+    z-index: 1000;
+    max-height: 90vh;
+    overflow-y: auto;
     /* overflow: scroll; */
   }
 
@@ -14,5 +17,36 @@
   width: 45%;
   display: block;
   margin-left: auto;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+    .sidebar-container {
+        width: calc(100% - 30px);
+        margin: 10px;
+        padding: 15px;
+        max-height: 50vh;
+    }
+
+    .logo-style {
+        width: 60%;
+    }
+
+    /* Hide tree equity score description on mobile */
+    .tree-equity-description {
+        display: none;
+    }
+}
+
+/* Small mobile styles */
+@media screen and (max-width: 480px) {
+    .sidebar-container {
+        margin: 5px;
+        padding: 10px;
+    }
+
+    .logo-style {
+        width: 70%;
+    }
 }
 
