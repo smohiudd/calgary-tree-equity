@@ -2,5 +2,23 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
+  height: 100vh;
   overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Prevent text size adjustment on orientation change */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+  body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
 }

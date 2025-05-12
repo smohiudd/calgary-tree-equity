@@ -37,17 +37,17 @@ export default function Sidebar(props) {
       top={0}
       sx={{
         maxWidth: { xs: "sm", sm: 340 },
-        p: { xs: 2, sm: 3 },
-        m: { xs: 1, sm: 2 },
+        p: { xs: 1.5, sm: 3 },
+        m: { xs: 0.5, sm: 2 },
         backgroundColor: "white",
         boxShadow: 3,
       }}
     >
-      <Grid container spacing={2} columns={16} sx={{ mb: 3 }}>
+      <Grid container spacing={1} columns={16} sx={{ mb: 1.5 }}>
         <Grid item xs={9}>
           <Box
             sx={{
-              fontSize: { xs: 32, sm: 38 },
+              fontSize: { xs: 28, sm: 38 },
               fontWeight: "bold",
               letterSpacing: -1,
               fontFamily: "'Roboto', 'Helvetica Neue', Arial, sans-serif",
@@ -74,7 +74,7 @@ export default function Sidebar(props) {
         </Grid>
       </Grid>
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e0e0e0', mb: 3}}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e0e0e0', mb: 1.5, display: { xs: 'none', sm: 'flex' }}}>
         <Typography
           sx={activePanel === 'treeEquity' ? activeTitleStyle : inactiveTitleStyle}
           onClick={() => {
@@ -91,7 +91,10 @@ export default function Sidebar(props) {
           Tree Equity
         </Typography>
         <Typography
-          sx={activePanel === 'singleYear' ? activeTitleStyle : inactiveTitleStyle}
+          sx={{
+            ...(activePanel === 'singleYear' ? activeTitleStyle : inactiveTitleStyle),
+            display: { xs: 'none', sm: 'block' }
+          }}
           onClick={() => {
             setActivePanel('singleYear');
             if(props.layer) props.setLayer('cover');
@@ -104,13 +107,15 @@ export default function Sidebar(props) {
             props.setEquityLayer(false);
             props.setCompare(false);
             props.setCompareCanopy(false);
-
           }}
         >
           Canopy Cover
         </Typography>
         <Typography
-          sx={activePanel === 'compareYears' ? activeTitleStyle : inactiveTitleStyle}
+          sx={{
+            ...(activePanel === 'compareYears' ? activeTitleStyle : inactiveTitleStyle),
+            display: { xs: 'none', sm: 'block' }
+          }}
           onClick={() => {
             setActivePanel('compareYears')
             if(props.layer) props.setLayer('diff');
@@ -188,17 +193,17 @@ export default function Sidebar(props) {
       )}
 
       {activePanel === 'treeEquity' && (
-        <Box sx={{ mt: 2, p: 1 }}>
+        <Box sx={{ mt: 1, p: 0.5 }}>
           {props.priorityData && Object.keys(props.priorityData).length > 0 ? (
             <>
               <Typography 
                 variant="caption" 
                 display="block" 
                 gutterBottom 
-                sx={{ textAlign: 'center', color: 'grey', width: '100%', mb: 2 }}>
+                sx={{ textAlign: 'center', color: 'grey', width: '100%', mb: 1, display: { xs: 'none', sm: 'block' } }}>
                 DGUID: {props.priorityData.DGUID}
               </Typography>
-              <Grid container spacing={2} sx={{ mb: 3, textAlign: 'center' }}>
+              <Grid container spacing={1} sx={{ mb: 2, textAlign: 'center', display: { xs: 'none', sm: 'flex' } }}>
                 <Grid item xs={6}>
                   <Typography 
                     variant="h3" 
@@ -207,10 +212,10 @@ export default function Sidebar(props) {
                       fontWeight: 'bold',
                       color: (() => {
                         const score = props.priorityData.index;
-                        if (score === undefined) return 'inherit'; // Default color if no score
-                        if (score <= 70) return '#d32f2f'; // Red
-                        if (score <= 80) return '#f57c00'; // Orange
-                        return '#388e3c'; // Green
+                        if (score === undefined) return 'inherit';
+                        if (score <= 70) return '#d32f2f';
+                        if (score <= 80) return '#f57c00';
+                        return '#388e3c';
                       })()
                     }}
                   >
@@ -230,11 +235,11 @@ export default function Sidebar(props) {
                 </Grid>
               </Grid>
 
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: '#38761d', textAlign: 'center', mb: 2 }}>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: '#38761d', textAlign: 'center', mb: 1, display: { xs: 'none', sm: 'block' } }}>
                 Priority Indicators
               </Typography>
 
-              <Grid container spacing={1} sx={{ textAlign: 'center', backgroundColor: '#edf7ee', borderRadius: 1, p: 2 }}>
+              <Grid container spacing={0.5} sx={{ textAlign: 'center', backgroundColor: '#edf7ee', borderRadius: 1, p: 1, display: { xs: 'none', sm: 'flex' } }}>
                 {[
                   { key: 'age', label: 'Seniors (% 65+)' },
                   { key: 'visible_minority', label: 'Visible Minority (%)' },
@@ -243,7 +248,7 @@ export default function Sidebar(props) {
                   { key: 'unemployed', label: 'Unemployment (%)' }
                 ].map(metric => (
                   props.priorityData[metric.key] !== undefined && (
-                    <Grid item xs={4} key={metric.key} sx={{ mb: 1 }}>
+                    <Grid item xs={4} key={metric.key} sx={{ mb: 0.5 }}>
                       <Typography variant="h6" component="div" sx={{ fontWeight: 'medium' }}>
                         {`${(props.priorityData[metric.key] * 100).toFixed(1)}%`}
                       </Typography>
@@ -254,7 +259,7 @@ export default function Sidebar(props) {
                   )
                 ))}
                 {props.priorityData.temp_diff !== undefined && (
-                  <Grid item xs={4} key="temp_diff" sx={{ mb: 1 }}>
+                  <Grid item xs={4} key="temp_diff" sx={{ mb: 0.5 }}>
                     <Typography variant="h6" component="div" sx={{ fontWeight: 'medium' }}>
                       {`${props.priorityData.temp_diff.toFixed(1)}°C`}
                     </Typography>
@@ -267,23 +272,35 @@ export default function Sidebar(props) {
             </>
           ) : (
             <Box>
-              <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', mb: 1.5 }}>
+              <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', mb: 1 }} className="tree-equity-description">
               The Tree Equity Score combines tree canopy data with key demographic indicators to assess how fairly communities benefit from urban trees.
               </Typography>
-              <Typography variant="body2" sx={{ textAlign: 'left', fontWeight: 'bold', color: 'black' }}>
+              <Typography variant="body2" sx={{ textAlign: 'left', fontWeight: 'bold', color: 'black', display: { xs: 'none', sm: 'block' } }}>
                 Hover over a dissemination area on the map to see the Tree Equity Score and priority indicators for that area.
               </Typography>
             </Box>
           )}
         </Box>
       )}
+      <Typography sx={{ 
+        textAlign: 'left', 
+        color: 'black', 
+        display: { xs: 'block', sm: 'none' }, 
+        mt: 1,
+        fontSize: '0.875rem',
+        lineHeight: 1.2,
+        px: 0.5, 
+        color: "green"
+      }}>
+        Tap on a dissemination area on the map to see the Tree Equity Score for that area.
+      </Typography>
       
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           fontSize: { xs: 12, sm: 12 },
-          mt: 2,
+          mt: 1,
           color: "green",
         }}
       >
@@ -291,7 +308,7 @@ export default function Sidebar(props) {
           href="https://github.com/smohiudd/calgary-tree-equity/blob/main/methodology.md"
           target="_blank"
         >
-          <HelpOutlineIcon fontSize="small" sx={{ mr: 1 }} />
+          <HelpOutlineIcon fontSize="small" sx={{ mr: 0.5 }} />
         </Link>{" "}
         Find out how the Tree Equity Score is calculated and data sources used
         for this tool.
