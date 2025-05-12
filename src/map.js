@@ -68,6 +68,8 @@ export default function Map(props) {
       style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
       center: [lng, lat],
       zoom: zoom,
+      minZoom: 9.5,
+      maxZoom: 19
     });
 
     map.current.addControl(new maplibregl.NavigationControl(), "bottom-right");
@@ -268,6 +270,8 @@ export default function Map(props) {
       style: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
       center: [lng, lat],
       zoom: zoom,
+      minZoom: 9.5,
+      maxZoom: 19
     });
 
     mapAfter.current.on("load", function () {
