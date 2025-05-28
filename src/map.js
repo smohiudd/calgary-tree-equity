@@ -211,7 +211,6 @@ export default function Map(props) {
     map.current.on("mouseleave", "equity-index", () => {
       map.current.getCanvas().style.cursor = "";
       popUpRef.current.remove();
-      props.setPriorityData(null)
     });
   }, []);
 

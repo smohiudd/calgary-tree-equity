@@ -74,7 +74,7 @@ export default function Sidebar(props) {
         </Grid>
       </Grid>
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e0e0e0', mb: 1.5, display: { xs: 'none', sm: 'flex' }}}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e0e0e0', mb: 3, mt:2, display: { xs: 'none', sm: 'flex' }}}>
         <Typography
           sx={activePanel === 'treeEquity' ? activeTitleStyle : inactiveTitleStyle}
           onClick={() => {
