@@ -305,7 +305,7 @@ export default function Sidebar(props) {
         }}
       >
         <Link
-          href="https://github.com/smohiudd/calgary-tree-equity/blob/main/methodology.md"
+          href="https://saadiqm.com/2025/05/28/build-treeequity-map.html"
           target="_blank"
         >
           <HelpOutlineIcon fontSize="small" sx={{ mr: 0.5 }} />
