@@ -58,10 +58,10 @@ const colorMapDiff = () => {
 const colorMapDiffFlat = () => {
   let scale = d3
     .scaleDiverging()
-    .domain([-150, 0, 70])
+    .domain([-40, 0, 40])
     .interpolator(d3.interpolateRdYlGn);
   return d3
-    .range(-150, 70)
+    .range(-40, 40)
     .map((x) => [x, scale(x)])
     .flat()
     .slice(1);

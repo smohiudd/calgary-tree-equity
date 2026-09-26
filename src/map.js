@@ -14,8 +14,10 @@ import {
 import Box from "@mui/material/Box";
 import { throttle } from "lodash";
 
-const base_imagery = (year) =>
-  `https://tiles.arcgis.com/tiles/AVP60cs0Q9PEA8rH/arcgis/rest/services/Calgary_${year}_WMASP/MapServer/WMTS/tile/1.0.0/Calgary_${year}_WMASP/default/default028mm/{z}/{y}/{x}.png`;
+const base_imagery = (year) => {
+  const service = `Calgary_Orthophoto_Web_${year}`;
+  return `https://tiles.arcgis.com/tiles/AVP60cs0Q9PEA8rH/arcgis/rest/services/${service}/MapServer/WMTS/tile/1.0.0/${service}/default/default028mm/{z}/{y}/{x}.png`;
+};
 
 const color_map = (year, compareyear) => {
   return [
@@ -23,7 +25,7 @@ const color_map = (year, compareyear) => {
     [
       "*",
       [
-        "%",
+        "/",
         ["-", ["get", String(compareyear)], ["get", String(year)]],
         ["get", String(year)],
       ],
@@ -241,6 +243,12 @@ export default function Map(props) {
 
       let current_year = e.features[0].properties[props.year];
       let next_year = e.features[0].properties[props.compareyear];
+
+      // #region agent log
+      const realPct = ((next_year - current_year) / current_year) * 100;
+      const modPct = ((next_year - current_year) % current_year) * 100;
+      fetch('http://127.0.0.1:7246/ingest/0f84a9a8-dd8d-4d76-bb37-21ba351c8789',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({runId:'post-fix',location:'map.js:ct-change-hover',message:'hover values',data:{name:e.features[0].properties.name,current_year_val:current_year,next_year_val:next_year,current_type:typeof current_year,next_type:typeof next_year,props_year:props.year,props_compareyear:props.compareyear,realPct,modPct},hypothesisId:'A,D,E',timestamp:Date.now()})}).catch(()=>{});
+      // #endregion
 
       popUpRef.current
         .setLngLat(e.lngLat)

@@ -12,7 +12,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Link from '@mui/material/Link';
 
 export default function Sidebar(props) {
-  let years = [2012, 2013, 2015, 2017, 2020, 2022];
+  let years = [2012, 2013, 2015, 2017, 2020, 2022, 2024];
   const [activePanel, setActivePanel] = useState('treeEquity');
 
   const activeTitleStyle = {
